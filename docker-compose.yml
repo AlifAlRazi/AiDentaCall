@@ -1,0 +1,4 @@
+# DentaCall Docker Compose
+# Delegates to infra/docker-compose.yml or runs directly from root
+include:
+  - infra/docker-compose.yml
