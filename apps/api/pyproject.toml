@@ -6,6 +6,10 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "dentacall-core",
+    "fastapi==0.115.8",
+    "uvicorn[standard]==0.34.0",
+    "phonenumbers==8.13.55",
+    "httpx==0.28.1",
 ]
 
 [tool.uv.sources]

@@ -6,10 +6,14 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "dentacall-core",
+    "dentacall-api",
+    "dentacall-agent",
 ]
 
 [tool.uv.sources]
 dentacall-core = { workspace = true }
+dentacall-api = { workspace = true }
+dentacall-agent = { workspace = true }
 
 [tool.uv.workspace]
 members = [
@@ -46,6 +50,7 @@ select = [
 ]
 ignore = [
     "E501", # line too long (handled by ruff format)
+    "B008", # do not perform function calls in argument defaults (FastAPI Depends/Header)
 ]
 
 [tool.ruff.format]
@@ -55,6 +60,8 @@ indent-style = "space"
 [tool.mypy]
 python_version = "3.12"
 strict = true
+explicit_package_bases = true
+mypy_path = ["packages/core/src", "packages/evals/src", "apps/api/src", "apps/agent/src"]
 warn_unused_configs = true
 disallow_untyped_defs = true
 disallow_incomplete_defs = true
@@ -89,6 +96,7 @@ disallow_untyped_defs = false
 
 [tool.pytest.ini_options]
 minversion = "8.0"
+pythonpath = ["."]
 testpaths = [
     "tests",
     "packages/core/tests",

@@ -4,7 +4,7 @@ import uuid
 from datetime import datetime, timedelta
 
 from sqlalchemy import select
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import DBAPIError, IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from dentacall_core.models import (
@@ -183,7 +183,7 @@ async def book_appointment(
     try:
         # Flushing triggers PostgreSQL GiST Exclusion Constraint immediately
         await session.flush()
-    except IntegrityError as exc:
+    except (IntegrityError, DBAPIError) as exc:
         await session.rollback()
         raise SlotUnavailableError(
             "This slot has already been booked by another appointment."

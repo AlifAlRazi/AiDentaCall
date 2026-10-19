@@ -10,10 +10,12 @@ from dentacall_core.holidays import get_irish_public_holidays
 from dentacall_core.models import (
     Appointment,
     AppointmentStatus,
+    CallLog,
     Clinic,
     Dentist,
     Patient,
     Service,
+    SlotHold,
     TimeOff,
     WorkingHours,
 )
@@ -25,7 +27,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 async def seed_database(session: AsyncSession) -> dict[str, uuid.UUID]:
     """Populate database with Grand Canal Dental Clinic data matching docs/spec.md."""
     # Clean existing data in reverse FK order
+    await session.execute(delete(CallLog))
     await session.execute(delete(Appointment))
+    await session.execute(delete(SlotHold))
     await session.execute(delete(TimeOff))
     await session.execute(delete(WorkingHours))
     await session.execute(delete(Service))

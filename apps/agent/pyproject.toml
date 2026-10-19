@@ -5,11 +5,17 @@ description = "Voice agent worker for DentaCall"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "anthropic>=0.45.0",
     "dentacall-core",
+    "dentacall-api",
+    "httpx>=0.28.1",
+    "openai>=1.60.0",
+    "rich>=13.9.0",
 ]
 
 [tool.uv.sources]
 dentacall-core = { workspace = true }
+dentacall-api = { workspace = true }
 
 [build-system]
 requires = ["hatchling"]
