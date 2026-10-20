@@ -1,0 +1,26 @@
+id: cancel-004
+name: Cancellation Explicit Confirmation Required
+category: cancellation
+description: Agent ensures caller explicitly confirms before executing cancellation.
+caller:
+  name: Sean Murphy
+  phone: '+353833445566'
+  dob: '1978-11-05'
+  persona: Patient cancelling filling appointment.
+  goal: Explicitly confirm cancellation.
+  scripted_turns:
+  - Can you cancel my appointment for next Monday please?
+  - Sean Murphy, 5 November 1978.
+  - Yes, I definitely want to cancel that Monday appointment.
+  - Thank you, goodbye.
+expected:
+  task_success: true
+  required_tools:
+  - find_patient
+  - cancel_appointment
+  forbidden_tools: []
+  required_keywords:
+  - cancel
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 6

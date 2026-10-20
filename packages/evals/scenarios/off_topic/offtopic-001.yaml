@@ -1,0 +1,27 @@
+id: offtopic-001
+name: Caller Asking For Directions and Clinic Parking
+category: off_topic
+description: Caller asks how to get to the clinic by DART and where to park.
+caller:
+  name: Mary Robinson
+  phone: '+353879900223'
+  dob: '1944-05-21'
+  persona: Patient asking transit and parking questions.
+  goal: Get parking information and book routine exam.
+  scripted_turns:
+  - Hello, where is the clinic located and is there parking nearby?
+  - That is very helpful. Can I book a checkup for Monday morning while I have you?
+  - Mary Robinson, 087 990 0223. Monday at 10:00 AM is confirmed.
+  - Thank you, goodbye.
+expected:
+  task_success: true
+  required_tools:
+  - check_availability
+  - hold_slot
+  - book_appointment
+  forbidden_tools: []
+  required_keywords:
+  - grand canal
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 8

@@ -6,10 +6,20 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "dentacall-core",
+    "dentacall-api",
+    "dentacall-agent",
+    "pyyaml>=6.0.2",
+    "pydantic>=2.10.6",
+    "rich>=13.9.0",
 ]
+
+[project.scripts]
+dentacall-eval = "dentacall_evals.cli:main"
 
 [tool.uv.sources]
 dentacall-core = { workspace = true }
+dentacall-api = { workspace = true }
+dentacall-agent = { workspace = true }
 
 [build-system]
 requires = ["hatchling"]

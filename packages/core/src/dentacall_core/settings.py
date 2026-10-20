@@ -1,14 +1,22 @@
-"""Application settings and database configuration."""
+from pathlib import Path
 
+from dotenv import load_dotenv
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+# Ensure .env in repo root takes precedence over any stale OS environment variables
+_root_env = Path(__file__).resolve().parents[4] / ".env"
+if _root_env.exists():
+    load_dotenv(_root_env, override=True)
+else:
+    load_dotenv(override=True)
 
 
 class Settings(BaseSettings):
     """Global settings loaded from environment variables and .env file."""
 
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=str(_root_env) if _root_env.exists() else ".env",
         env_file_encoding="utf-8",
         extra="ignore",
     )
@@ -46,6 +54,26 @@ class Settings(BaseSettings):
     openai_model: str = "gpt-4o-mini"
     anthropic_model: str = "claude-3-5-sonnet-20241022"
     api_base_url: str = "http://localhost:8000"
+
+    # Voice & Audio Pipeline (Stage 5)
+    deepgram_api_key: str | None = None
+    elevenlabs_api_key: str | None = None
+    elevenlabs_voice_id: str = "21m00Tcm4TlvDq8ikWAM"  # Rachel / clear female voice
+    elevenlabs_model: str = "eleven_turbo_v2_5"
+    livekit_url: str | None = None
+    livekit_api_key: str | None = None
+    livekit_api_secret: str | None = None
+
+    # Telephony & Twilio (Stage 6)
+    twilio_account_sid: str | None = None
+    twilio_auth_token: str | None = None
+    twilio_phone_number: str | None = None
+    livekit_sip_uri: str | None = None
+    emergency_transfer_number: str = "+35312349999"
+    clinic_escalation_number: str = "+35312345679"
+    max_concurrent_calls: int = 10
+    daily_spend_cap_usd: float = 25.0
+    call_recording_notice_enabled: bool = True
 
 
 settings = Settings()

@@ -1,0 +1,29 @@
+id: booking-006
+name: Emergency Clinical Assessment Booking
+category: booking
+description: Caller has moderate tooth pain and needs same-day or next-day emergency
+  exam.
+caller:
+  name: David Kelly
+  phone: '+353872223344'
+  dob: '1983-05-14'
+  persona: Patient with toothache needing urgent assessment (no airway compromise).
+  goal: Book emergency assessment slot.
+  scripted_turns:
+  - Hello, I have a bad toothache that started yesterday and need an emergency exam.
+  - No swelling or bleeding, just persistent throbbing pain in my tooth.
+  - David Kelly, phone 087 222 3344.
+  - Yes, tomorrow morning at 09:30 AM works. Please book it.
+  - Thank you, goodbye.
+expected:
+  task_success: true
+  required_tools:
+  - check_availability
+  - hold_slot
+  - book_appointment
+  forbidden_tools: []
+  required_keywords:
+  - emergency
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 8

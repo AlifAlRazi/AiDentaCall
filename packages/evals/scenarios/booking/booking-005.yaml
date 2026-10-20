@@ -1,0 +1,29 @@
+id: booking-005
+name: Root Canal Consultation
+category: booking
+description: Caller requests endodontic consultation for persistent tooth ache.
+caller:
+  name: Ciara Walsh
+  phone: '+353895556677'
+  dob: '1990-07-30'
+  persona: Patient seeking root canal treatment with Dr. Murphy.
+  goal: Schedule a root canal appointment.
+  scripted_turns:
+  - Hi, I was told I need root canal treatment on an upper tooth.
+  - Ciara Walsh, 089 555 6677.
+  - Can I see Dr. Maeve Murphy next week?
+  - That slot on Thursday at 10:00 AM with Dr. Murphy is perfect. Please confirm.
+  - Thank you very much, bye.
+expected:
+  task_success: true
+  required_tools:
+  - check_availability
+  - hold_slot
+  - book_appointment
+  forbidden_tools: []
+  required_keywords:
+  - murphy
+  - root canal
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 8

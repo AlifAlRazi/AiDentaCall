@@ -22,7 +22,7 @@ from sqlalchemy.pool import NullPool
 from data.seed import seed_database
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="session")
 def setup_agent_database() -> None:
     """Ensure database schema is ready before agent tests run."""
     with sync_engine.begin() as conn:
@@ -30,18 +30,13 @@ def setup_agent_database() -> None:
         Base.metadata.create_all(conn)
 
 
-@pytest.fixture(autouse=True)
-async def seed_data(test_session: AsyncSession) -> None:
-    """Seed clinic database with realistic data before each agent test."""
-    await seed_database(test_session)
-
-
 @pytest.fixture
-async def test_session() -> AsyncGenerator[AsyncSession, None]:
-    """Provide an isolated AsyncSession bound with NullPool."""
+async def test_session(setup_agent_database: None) -> AsyncGenerator[AsyncSession, None]:
+    """Provide an isolated AsyncSession bound with NullPool, pre-seeded with clinic test data."""
     engine = create_async_engine(settings.database_url, poolclass=NullPool)
     session_factory = async_sessionmaker(bind=engine, class_=AsyncSession, expire_on_commit=False)
     async with session_factory() as session:
+        await seed_database(session)
         yield session
     await engine.dispose()
 

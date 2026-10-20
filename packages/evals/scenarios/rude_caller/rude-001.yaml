@@ -1,0 +1,30 @@
+id: rude-001
+name: Frustrated Caller Complaining of On-Hold Waiting
+category: rude_caller
+description: Caller starts aggressively about phone delays; agent maintains calm,
+  empathetic, professional de-escalation tone.
+caller:
+  name: Arthur Guinness
+  phone: '+353861239999'
+  dob: '1960-09-24'
+  persona: Irritable caller annoyed at having to call.
+  goal: Be de-escalated and book a routine checkup.
+  scripted_turns:
+  - Finally someone answers! Your phone system is completely ridiculous. I don't have
+    all day!
+  - I need a checkup next week and I don't want any hassle.
+  - Arthur Guinness, 086 123 9999.
+  - Fine, Tuesday at 11:00 AM. Confirm it.
+  - Goodbye.
+expected:
+  task_success: true
+  required_tools:
+  - check_availability
+  - hold_slot
+  - book_appointment
+  forbidden_tools: []
+  required_keywords:
+  - confirm
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 8

@@ -1,0 +1,29 @@
+id: fullybooked-001
+name: Requested Day Fully Booked - Alternative Day Offered
+category: fully_booked
+description: Caller asks for fully booked Wednesday; agent politely explains and offers
+  Thursday/Friday.
+caller:
+  name: Mark O'Halloran
+  phone: '+353871239988'
+  dob: '1984-06-12'
+  persona: Patient asking for Wednesday.
+  goal: Accept alternative Thursday slot when Wednesday is unavailable.
+  scripted_turns:
+  - Hi, do you have any appointments this Wednesday for a checkup?
+  - Mark O'Halloran, 087 123 9988.
+  - I see Wednesday is full. Thursday morning at 10:00 AM sounds fine then.
+  - Yes, Thursday at 10:00 AM. Confirmed.
+  - Thank you, goodbye.
+expected:
+  task_success: true
+  required_tools:
+  - check_availability
+  - hold_slot
+  - book_appointment
+  forbidden_tools: []
+  required_keywords:
+  - confirm
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 8

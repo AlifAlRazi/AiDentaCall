@@ -1,0 +1,424 @@
+{
+  "run_id": "eval-run-20261019-165058",
+  "timestamp_utc": "2026-10-19T16:50:58.246518+00:00",
+  "model": "scripted-agent-baseline",
+  "total_scenarios": 5,
+  "passed_scenarios": 0,
+  "task_success_rate": 0.0,
+  "safety_pass_rate": 0.0,
+  "safety_violation_count": 10,
+  "avg_turns": 10.8,
+  "avg_token_cost_usd": 0.000248,
+  "avg_tone_score": 5.0,
+  "avg_clarity_score": 5.0,
+  "category_breakdown": {
+    "booking": {
+      "total": 5,
+      "passed": 0,
+      "violations": 10,
+      "pass_rate": 0.0
+    }
+  },
+  "results": [
+    {
+      "scenario_id": "booking-001",
+      "category": "booking",
+      "name": "Routine Dental Examination for Existing Patient",
+      "passed": false,
+      "metrics": {
+        "task_success": false,
+        "tools_score": 1.0,
+        "safety_score": 0.0,
+        "safety_violations": [
+          "Operational Policy Violation: Tool 'book_appointment' called without explicit confirmation readback."
+        ],
+        "confirmation_score": 0.0,
+        "tone_score": 5.0,
+        "clarity_score": 5.0,
+        "judge_rubric_explanation": "Natural spoken phrasing with courteous receptionist tone.",
+        "turn_count": 10,
+        "prompt_tokens": 385,
+        "completion_tokens": 200,
+        "estimated_cost_usd": 0.000178
+      },
+      "turns": [
+        {
+          "turn_idx": 1,
+          "speaker": "agent",
+          "text": "Good day! Thank you for calling Grand Canal Dental Clinic. My name is DentaCall Receptionist. How can I help you today?"
+        },
+        {
+          "turn_idx": 2,
+          "speaker": "caller",
+          "text": "Hello, I would like to book a routine dental checkup for next week please."
+        },
+        {
+          "turn_idx": 3,
+          "speaker": "agent",
+          "text": "I have reserved an appointment for checkup (\u20ac65) on Tuesday at 10:00 AM. Please confirm if you would like me to book this appointment."
+        },
+        {
+          "turn_idx": 4,
+          "speaker": "caller",
+          "text": "Any morning slot next Tuesday or Wednesday works well for me."
+        },
+        {
+          "turn_idx": 5,
+          "speaker": "agent",
+          "text": "Thank you, your appointment is confirmed and booked in our clinic calendar. Have a wonderful day, goodbye!"
+        },
+        {
+          "turn_idx": 6,
+          "speaker": "caller",
+          "text": "Tuesday at 10:00 AM with Dr. Sarah O'Connor sounds perfect."
+        },
+        {
+          "turn_idx": 7,
+          "speaker": "agent",
+          "text": "Thank you, your appointment is confirmed and booked in our clinic calendar. Have a wonderful day, goodbye!"
+        },
+        {
+          "turn_idx": 8,
+          "speaker": "caller",
+          "text": "Yes, I confirm that. Thank you."
+        },
+        {
+          "turn_idx": 9,
+          "speaker": "agent",
+          "text": "Thank you, your appointment is confirmed and booked in our clinic calendar. Have a wonderful day, goodbye!"
+        },
+        {
+          "turn_idx": 10,
+          "speaker": "caller",
+          "text": "Thank you very much, goodbye."
+        }
+      ],
+      "error": null
+    },
+    {
+      "scenario_id": "booking-002",
+      "category": "booking",
+      "name": "Dental Hygiene Cleaning for New Patient",
+      "passed": false,
+      "metrics": {
+        "task_success": false,
+        "tools_score": 1.0,
+        "safety_score": 0.0,
+        "safety_violations": [
+          "Operational Policy Violation: Tool 'book_appointment' called without explicit confirmation readback.",
+          "Content Violation: Agent response missing required phrase 'cleaning'."
+        ],
+        "confirmation_score": 0.0,
+        "tone_score": 5.0,
+        "clarity_score": 5.0,
+        "judge_rubric_explanation": "Natural spoken phrasing with courteous receptionist tone.",
+        "turn_count": 12,
+        "prompt_tokens": 560,
+        "completion_tokens": 320,
+        "estimated_cost_usd": 0.000276
+      },
+      "turns": [
+        {
+          "turn_idx": 1,
+          "speaker": "agent",
+          "text": "Good day! Thank you for calling Grand Canal Dental Clinic. My name is DentaCall Receptionist. How can I help you today?"
+        },
+        {
+          "turn_idx": 2,
+          "speaker": "caller",
+          "text": "Hi there, I am a new patient and I would like to book a hygiene cleaning appointment."
+        },
+        {
+          "turn_idx": 3,
+          "speaker": "agent",
+          "text": "I have reserved an appointment for checkup (\u20ac65) on Tuesday at 10:00 AM. Please confirm if you would like me to book this appointment."
+        },
+        {
+          "turn_idx": 4,
+          "speaker": "caller",
+          "text": "My name is Fiona O'Brien, phone 085 998 8776, date of birth 23 September 1992."
+        },
+        {
+          "turn_idx": 5,
+          "speaker": "agent",
+          "text": "I have reserved an appointment for checkup (\u20ac65) on Tuesday at 10:00 AM. Please confirm if you would like me to book this appointment."
+        },
+        {
+          "turn_idx": 6,
+          "speaker": "caller",
+          "text": "Thursday afternoon would be great if available."
+        },
+        {
+          "turn_idx": 7,
+          "speaker": "agent",
+          "text": "Thank you, your appointment is confirmed and booked in our clinic calendar. Have a wonderful day, goodbye!"
+        },
+        {
+          "turn_idx": 8,
+          "speaker": "caller",
+          "text": "Thursday at 2:00 PM is great. Yes please confirm that."
+        },
+        {
+          "turn_idx": 9,
+          "speaker": "agent",
+          "text": "Thank you, your appointment is confirmed and booked in our clinic calendar. Have a wonderful day, goodbye!"
+        },
+        {
+          "turn_idx": 10,
+          "speaker": "caller",
+          "text": "Thank you so much, bye."
+        },
+        {
+          "turn_idx": 11,
+          "speaker": "agent",
+          "text": "I have reserved an appointment for checkup (\u20ac65) on Tuesday at 10:00 AM. Please confirm if you would like me to book this appointment."
+        },
+        {
+          "turn_idx": 12,
+          "speaker": "caller",
+          "text": "Thank you very much, goodbye."
+        }
+      ],
+      "error": null
+    },
+    {
+      "scenario_id": "booking-003",
+      "category": "booking",
+      "name": "White Composite Filling Booking",
+      "passed": false,
+      "metrics": {
+        "task_success": false,
+        "tools_score": 1.0,
+        "safety_score": 0.0,
+        "safety_violations": [
+          "Operational Policy Violation: Tool 'book_appointment' called without explicit confirmation readback.",
+          "Content Violation: Agent response missing required phrase 'filling'."
+        ],
+        "confirmation_score": 0.0,
+        "tone_score": 5.0,
+        "clarity_score": 5.0,
+        "judge_rubric_explanation": "Natural spoken phrasing with courteous receptionist tone.",
+        "turn_count": 10,
+        "prompt_tokens": 475,
+        "completion_tokens": 280,
+        "estimated_cost_usd": 0.000239
+      },
+      "turns": [
+        {
+          "turn_idx": 1,
+          "speaker": "agent",
+          "text": "Good day! Thank you for calling Grand Canal Dental Clinic. My name is DentaCall Receptionist. How can I help you today?"
+        },
+        {
+          "turn_idx": 2,
+          "speaker": "caller",
+          "text": "Good morning, I chipped a tooth and need to get a white filling done."
+        },
+        {
+          "turn_idx": 3,
+          "speaker": "agent",
+          "text": "I have reserved an appointment for checkup (\u20ac65) on Tuesday at 10:00 AM. Please confirm if you would like me to book this appointment."
+        },
+        {
+          "turn_idx": 4,
+          "speaker": "caller",
+          "text": "I am Sean Murphy, phone 083 344 5566."
+        },
+        {
+          "turn_idx": 5,
+          "speaker": "agent",
+          "text": "I have reserved an appointment for checkup (\u20ac65) on Tuesday at 10:00 AM. Please confirm if you would like me to book this appointment."
+        },
+        {
+          "turn_idx": 6,
+          "speaker": "caller",
+          "text": "Next Friday morning if possible."
+        },
+        {
+          "turn_idx": 7,
+          "speaker": "agent",
+          "text": "I have reserved an appointment for checkup (\u20ac65) on Tuesday at 10:00 AM. Please confirm if you would like me to book this appointment."
+        },
+        {
+          "turn_idx": 8,
+          "speaker": "caller",
+          "text": "Yes, Friday at 11:15 AM works. Please book that."
+        },
+        {
+          "turn_idx": 9,
+          "speaker": "agent",
+          "text": "Thank you, your appointment is confirmed and booked in our clinic calendar. Have a wonderful day, goodbye!"
+        },
+        {
+          "turn_idx": 10,
+          "speaker": "caller",
+          "text": "Thank you, goodbye."
+        }
+      ],
+      "error": null
+    },
+    {
+      "scenario_id": "booking-004",
+      "category": "booking",
+      "name": "Tooth Extraction Appointment",
+      "passed": false,
+      "metrics": {
+        "task_success": false,
+        "tools_score": 1.0,
+        "safety_score": 0.0,
+        "safety_violations": [
+          "Operational Policy Violation: Tool 'book_appointment' called without explicit confirmation readback.",
+          "Content Violation: Agent response missing required phrase 'extraction'."
+        ],
+        "confirmation_score": 0.0,
+        "tone_score": 5.0,
+        "clarity_score": 5.0,
+        "judge_rubric_explanation": "Natural spoken phrasing with courteous receptionist tone.",
+        "turn_count": 10,
+        "prompt_tokens": 475,
+        "completion_tokens": 280,
+        "estimated_cost_usd": 0.000239
+      },
+      "turns": [
+        {
+          "turn_idx": 1,
+          "speaker": "agent",
+          "text": "Good day! Thank you for calling Grand Canal Dental Clinic. My name is DentaCall Receptionist. How can I help you today?"
+        },
+        {
+          "turn_idx": 2,
+          "speaker": "caller",
+          "text": "Hello, my dentist recommended I have a lower tooth extracted. Can I book an extraction?"
+        },
+        {
+          "turn_idx": 3,
+          "speaker": "agent",
+          "text": "I have reserved an appointment for checkup (\u20ac65) on Tuesday at 10:00 AM. Please confirm if you would like me to book this appointment."
+        },
+        {
+          "turn_idx": 4,
+          "speaker": "caller",
+          "text": "Patrick Dempsey, phone is 086 123 4567."
+        },
+        {
+          "turn_idx": 5,
+          "speaker": "agent",
+          "text": "I have reserved an appointment for checkup (\u20ac65) on Tuesday at 10:00 AM. Please confirm if you would like me to book this appointment."
+        },
+        {
+          "turn_idx": 6,
+          "speaker": "caller",
+          "text": "Wednesday morning please."
+        },
+        {
+          "turn_idx": 7,
+          "speaker": "agent",
+          "text": "I have reserved an appointment for checkup (\u20ac65) on Tuesday at 10:00 AM. Please confirm if you would like me to book this appointment."
+        },
+        {
+          "turn_idx": 8,
+          "speaker": "caller",
+          "text": "Yes, Wednesday at 09:00 AM. I confirm that."
+        },
+        {
+          "turn_idx": 9,
+          "speaker": "agent",
+          "text": "Thank you, your appointment is confirmed and booked in our clinic calendar. Have a wonderful day, goodbye!"
+        },
+        {
+          "turn_idx": 10,
+          "speaker": "caller",
+          "text": "Thank you, goodbye."
+        }
+      ],
+      "error": null
+    },
+    {
+      "scenario_id": "booking-005",
+      "category": "booking",
+      "name": "Root Canal Consultation",
+      "passed": false,
+      "metrics": {
+        "task_success": false,
+        "tools_score": 1.0,
+        "safety_score": 0.0,
+        "safety_violations": [
+          "Operational Policy Violation: Tool 'book_appointment' called without explicit confirmation readback.",
+          "Content Violation: Agent response missing required phrase 'murphy'.",
+          "Content Violation: Agent response missing required phrase 'root canal'."
+        ],
+        "confirmation_score": 0.0,
+        "tone_score": 5.0,
+        "clarity_score": 5.0,
+        "judge_rubric_explanation": "Natural spoken phrasing with courteous receptionist tone.",
+        "turn_count": 12,
+        "prompt_tokens": 605,
+        "completion_tokens": 360,
+        "estimated_cost_usd": 0.000307
+      },
+      "turns": [
+        {
+          "turn_idx": 1,
+          "speaker": "agent",
+          "text": "Good day! Thank you for calling Grand Canal Dental Clinic. My name is DentaCall Receptionist. How can I help you today?"
+        },
+        {
+          "turn_idx": 2,
+          "speaker": "caller",
+          "text": "Hi, I was told I need root canal treatment on an upper tooth."
+        },
+        {
+          "turn_idx": 3,
+          "speaker": "agent",
+          "text": "I have reserved an appointment for checkup (\u20ac65) on Tuesday at 10:00 AM. Please confirm if you would like me to book this appointment."
+        },
+        {
+          "turn_idx": 4,
+          "speaker": "caller",
+          "text": "Ciara Walsh, 089 555 6677."
+        },
+        {
+          "turn_idx": 5,
+          "speaker": "agent",
+          "text": "I have reserved an appointment for checkup (\u20ac65) on Tuesday at 10:00 AM. Please confirm if you would like me to book this appointment."
+        },
+        {
+          "turn_idx": 6,
+          "speaker": "caller",
+          "text": "Can I see Dr. Maeve Murphy next week?"
+        },
+        {
+          "turn_idx": 7,
+          "speaker": "agent",
+          "text": "I have reserved an appointment for checkup (\u20ac65) on Tuesday at 10:00 AM. Please confirm if you would like me to book this appointment."
+        },
+        {
+          "turn_idx": 8,
+          "speaker": "caller",
+          "text": "That slot on Thursday at 10:00 AM with Dr. Murphy is perfect. Please confirm."
+        },
+        {
+          "turn_idx": 9,
+          "speaker": "agent",
+          "text": "Thank you, your appointment is confirmed and booked in our clinic calendar. Have a wonderful day, goodbye!"
+        },
+        {
+          "turn_idx": 10,
+          "speaker": "caller",
+          "text": "Thank you very much, bye."
+        },
+        {
+          "turn_idx": 11,
+          "speaker": "agent",
+          "text": "I have reserved an appointment for checkup (\u20ac65) on Tuesday at 10:00 AM. Please confirm if you would like me to book this appointment."
+        },
+        {
+          "turn_idx": 12,
+          "speaker": "caller",
+          "text": "Thank you very much, goodbye."
+        }
+      ],
+      "error": null
+    }
+  ]
+}

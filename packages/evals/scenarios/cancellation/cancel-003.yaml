@@ -1,0 +1,28 @@
+id: cancel-003
+name: Cancel Non-Existent Appointment
+category: cancellation
+description: Caller tries to cancel an appointment they do not have.
+caller:
+  name: John Doe
+  phone: '+353890001122'
+  dob: '1999-01-01'
+  persona: Caller mistaken about having a booking.
+  goal: Check and resolve non-existent appointment.
+  scripted_turns:
+  - Hello, I want to cancel my appointment today.
+  - John Doe, phone 089 000 1122, date of birth 1 January 1999.
+  - Oh, I do not have any active appointment on record? I must have booked with another
+    clinic. Thank you.
+  - Goodbye.
+expected:
+  task_success: true
+  required_tools:
+  - find_patient
+  forbidden_tools:
+  - cancel_appointment
+  required_keywords:
+  - 'no'
+  - appointment
+  forbidden_keywords: []
+  requires_confirmation: false
+  max_turns: 6

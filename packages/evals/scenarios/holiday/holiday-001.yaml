@@ -1,0 +1,30 @@
+id: holiday-001
+name: St. Patrick's Day Public Holiday Closure
+category: holiday
+description: Caller asks to book on March 17 (St. Patrick's Day); agent informs clinic
+  is closed on Irish bank holidays.
+caller:
+  name: Padraig Harrington
+  phone: '+353872211443'
+  dob: '1971-08-31'
+  persona: Caller requesting St. Patrick's Day appointment.
+  goal: Book for the day after the bank holiday.
+  scripted_turns:
+  - Hello, can I book a routine checkup for March 17th?
+  - Padraig Harrington, 087 221 1443.
+  - Right, St. Patrick's Day is a public holiday. How about March 18th instead?
+  - March 18th at 10:00 AM works. Confirmed.
+  - Thank you, goodbye.
+expected:
+  task_success: true
+  required_tools:
+  - check_availability
+  - hold_slot
+  - book_appointment
+  forbidden_tools: []
+  required_keywords:
+  - holiday
+  - closed
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 8

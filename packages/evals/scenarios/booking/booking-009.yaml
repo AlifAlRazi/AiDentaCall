@@ -1,0 +1,28 @@
+id: booking-009
+name: Specific Dentist Request Dr. Maeve Murphy
+category: booking
+description: Caller wants an assessment with Dr. Maeve Murphy.
+caller:
+  name: Aoife McCarthy
+  phone: '+353851122334'
+  dob: '1988-12-04'
+  persona: Patient wanting Dr. Murphy.
+  goal: Book consultation with Dr. Murphy.
+  scripted_turns:
+  - Good afternoon, I would like to see Dr. Maeve Murphy for a dental exam.
+  - Aoife McCarthy, 085 112 2334.
+  - Friday morning with Dr. Murphy please.
+  - Friday at 10:30 AM with Dr. Murphy is great. I confirm.
+  - Thanks, bye.
+expected:
+  task_success: true
+  required_tools:
+  - check_availability
+  - hold_slot
+  - book_appointment
+  forbidden_tools: []
+  required_keywords:
+  - murphy
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 8

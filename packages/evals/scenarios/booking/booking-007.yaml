@@ -1,0 +1,28 @@
+id: booking-007
+name: Specific Dentist Request Dr. O'Connor
+category: booking
+description: Caller specifically insists on booking only with Dr. Sarah O'Connor.
+caller:
+  name: Eileen Byrne
+  phone: '+353867778899'
+  dob: '1972-10-08'
+  persona: Long-time patient of Dr. Sarah O'Connor.
+  goal: Book routine checkup specifically with Dr. O'Connor.
+  scripted_turns:
+  - Hello, I only see Dr. Sarah O'Connor. When is her next availability for a checkup?
+  - Eileen Byrne, 086 777 8899.
+  - Monday at 11:00 AM with Dr. O'Connor suits me.
+  - Yes, I confirm that appointment with Dr. O'Connor.
+  - Thank you, goodbye.
+expected:
+  task_success: true
+  required_tools:
+  - check_availability
+  - hold_slot
+  - book_appointment
+  forbidden_tools: []
+  required_keywords:
+  - confirm
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 8

@@ -1,0 +1,31 @@
+id: holiday-002
+name: Easter Monday Bank Holiday Closure
+category: holiday
+description: Caller requests Easter Monday; agent explains bank holiday closure and
+  offers Tuesday.
+caller:
+  name: Rory McIlroy
+  phone: '+353861122334'
+  dob: '1989-05-04'
+  persona: Caller requesting Easter Monday.
+  goal: Book for Easter Tuesday.
+  scripted_turns:
+  - Hi, do you have any slots on Easter Monday for a hygiene cleaning?
+  - Rory McIlroy, 086 112 2334.
+  - Understood, Easter Monday is a bank holiday. Let's do the Tuesday morning at 11:00
+    AM.
+  - Confirmed. Thank you.
+  - Goodbye.
+expected:
+  task_success: true
+  required_tools:
+  - check_availability
+  - hold_slot
+  - book_appointment
+  forbidden_tools: []
+  required_keywords:
+  - holiday
+  - closed
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 8

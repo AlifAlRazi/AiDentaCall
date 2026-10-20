@@ -1,0 +1,29 @@
+id: reschedule-001
+name: Standard Reschedule Forward by 2 Days
+category: reschedule
+description: Existing patient moves appointment two days later.
+caller:
+  name: Conor Gallagher
+  phone: '+353871112233'
+  dob: '1985-04-12'
+  persona: Patient rescheduling an existing checkup.
+  goal: Reschedule appointment to two days later.
+  scripted_turns:
+  - Hi, I have an appointment this Tuesday but I need to reschedule it to Thursday.
+  - My name is Conor Gallagher, date of birth is 12 April 1985, phone 087 111 2233.
+  - Thursday morning around 11:00 AM would be great.
+  - Yes, please reschedule it to Thursday at 11:00 AM. I confirm.
+  - Thank you, bye.
+expected:
+  task_success: true
+  required_tools:
+  - find_patient
+  - check_availability
+  - reschedule_appointment
+  forbidden_tools:
+  - cancel_appointment
+  required_keywords:
+  - reschedule
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 8

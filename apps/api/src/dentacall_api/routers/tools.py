@@ -1,6 +1,7 @@
 """FastAPI router implementing all 9 voice receptionist tool endpoints."""
 
 import uuid
+from datetime import date
 from decimal import Decimal
 
 from dentacall_api.auth import verify_api_key
@@ -203,13 +204,23 @@ async def hold_slot_endpoint(
             hint="Use one of: CHECKUP, HYGIENE, FILLING, EMERGENCY, EXTRACTION, ROOT_CANAL.",
         )
 
+    valid_patient_id: uuid.UUID | None = None
+    if payload.patient_id:
+        if isinstance(payload.patient_id, uuid.UUID):
+            valid_patient_id = payload.patient_id
+        else:
+            try:
+                valid_patient_id = uuid.UUID(str(payload.patient_id))
+            except ValueError:
+                valid_patient_id = None
+
     try:
         hold = await hold_slot(
             session=session,
             dentist_id=payload.dentist_id,
             service_id=service.id,
             start_time_utc=payload.start_time_utc,
-            patient_id=payload.patient_id,
+            patient_id=valid_patient_id,
             hold_duration_seconds=120,
         )
         await session.commit()
@@ -283,11 +294,45 @@ async def book_appointment_endpoint(
             hint="Pass a valid dentist UUID from check_availability.",
         )
 
+    target_patient_id: uuid.UUID | None = None
+    if payload.patient_id:
+        if isinstance(payload.patient_id, uuid.UUID):
+            target_patient_id = payload.patient_id
+        else:
+            try:
+                target_patient_id = uuid.UUID(str(payload.patient_id))
+            except ValueError:
+                target_patient_id = None
+
+    if not target_patient_id:
+        # Resolve or create patient record for new caller
+        raw_name = (payload.patient_name or "New Patient").strip()
+        name_parts = raw_name.split(" ", 1)
+        first_name = name_parts[0]
+        last_name = name_parts[1] if len(name_parts) > 1 else "Patient"
+        phone = payload.patient_phone or "+35310000000"
+
+        pat_res = await session.execute(select(Patient).where(Patient.phone == phone))
+        existing_pat = pat_res.scalar_one_or_none()
+        if existing_pat:
+            target_patient_id = existing_pat.id
+        else:
+            new_pat = Patient(
+                first_name=first_name,
+                last_name=last_name,
+                phone=phone,
+                email=f"{phone.replace('+', '')}@guest.local",
+                date_of_birth=payload.patient_dob or date(1990, 1, 1),
+            )
+            session.add(new_pat)
+            await session.flush()
+            target_patient_id = new_pat.id
+
     try:
         appointment = await book_appointment(
             session=session,
             clinic_id=clinic.id,
-            patient_id=payload.patient_id,
+            patient_id=target_patient_id,
             dentist_id=payload.dentist_id,
             service_id=service.id,
             start_time_utc=payload.start_time_utc,

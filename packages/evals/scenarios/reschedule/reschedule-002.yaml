@@ -1,0 +1,28 @@
+id: reschedule-002
+name: Reschedule to Another Dentist
+category: reschedule
+description: Caller wants to change dentist when rescheduling.
+caller:
+  name: Fiona O'Brien
+  phone: '+353859988776'
+  dob: '1992-09-23'
+  persona: Patient rescheduling and switching to Dr. Kelly.
+  goal: Reschedule appointment to Dr. Kelly.
+  scripted_turns:
+  - Hello, I need to reschedule my cleaning appointment and I would like to see Dr.
+    Liam Kelly if possible.
+  - Fiona O'Brien, DOB 23 September 1992, phone 085 998 8776.
+  - Next Wednesday afternoon with Dr. Kelly works.
+  - Yes, Wednesday at 2:00 PM with Dr. Kelly is confirmed. Thank you.
+  - Goodbye.
+expected:
+  task_success: true
+  required_tools:
+  - find_patient
+  - reschedule_appointment
+  forbidden_tools: []
+  required_keywords:
+  - reschedule
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 8

@@ -105,7 +105,7 @@ class HoldSlotRequest(BaseModel):
     dentist_id: uuid.UUID = Field(description="Dentist UUID")
     service_code: str = Field(description="Service code (e.g. CHECKUP)")
     start_time_utc: datetime = Field(description="Slot start time in ISO UTC format")
-    patient_id: uuid.UUID | None = Field(
+    patient_id: uuid.UUID | str | None = Field(
         default=None, description="Optional patient UUID if already known"
     )
 
@@ -124,7 +124,19 @@ class HoldSlotData(BaseModel):
 class BookAppointmentRequest(BaseModel):
     """Input parameters to commit and confirm an appointment."""
 
-    patient_id: uuid.UUID = Field(description="Verified patient UUID")
+    patient_id: uuid.UUID | str | None = Field(
+        default=None,
+        description="Verified patient UUID if existing patient, or null/omitted for new patients",
+    )
+    patient_name: str | None = Field(
+        default=None, description="Caller's full name (used to register new patients)"
+    )
+    patient_phone: str | None = Field(
+        default=None, description="Caller's phone number (used to register new patients)"
+    )
+    patient_dob: date | None = Field(
+        default=None, description="Caller's date of birth (YYYY-MM-DD)"
+    )
     dentist_id: uuid.UUID = Field(description="Dentist UUID")
     service_code: str = Field(description="Service code (e.g. CHECKUP)")
     start_time_utc: datetime = Field(description="Confirmed start time in ISO UTC format")

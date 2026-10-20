@@ -31,6 +31,9 @@ class ConversationState:
 
     # Counters and history
     turn_count: int = 0
+    prompt_tokens: int = 0
+    completion_tokens: int = 0
+    tool_calls_record: list[dict[str, Any]] = field(default_factory=list)
     history: list[ChatMessage] = field(default_factory=list)
 
     def record_caller_identity(

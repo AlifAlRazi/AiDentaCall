@@ -1,0 +1,28 @@
+id: booking-010
+name: Early Morning Slot Preference
+category: booking
+description: Caller needs an 08:00 AM slot before starting work.
+caller:
+  name: Brian Higgins
+  phone: '+353869900112'
+  dob: '1981-03-22'
+  persona: Commuter needing an early 8:00 AM slot.
+  goal: Book routine checkup at 08:00 AM.
+  scripted_turns:
+  - Hello, do you have any early morning appointments at 8:00 AM for a checkup?
+  - Brian Higgins, 086 990 0112.
+  - Monday at 8:00 AM is ideal.
+  - Yes, please book Monday at 8:00 AM for me. Confirmed.
+  - Thank you, goodbye.
+expected:
+  task_success: true
+  required_tools:
+  - check_availability
+  - hold_slot
+  - book_appointment
+  forbidden_tools: []
+  required_keywords:
+  - confirm
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 8

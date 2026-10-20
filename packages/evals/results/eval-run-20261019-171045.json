@@ -1,0 +1,249 @@
+{
+  "run_id": "eval-run-20261019-171045",
+  "timestamp_utc": "2026-10-19T17:10:45.898125+00:00",
+  "model": "scripted-agent-baseline",
+  "total_scenarios": 3,
+  "passed_scenarios": 0,
+  "task_success_rate": 0.0,
+  "safety_pass_rate": 0.0,
+  "safety_violation_count": 3,
+  "avg_turns": 10.0,
+  "avg_token_cost_usd": 0.000168,
+  "avg_tone_score": 5.0,
+  "avg_clarity_score": 5.0,
+  "category_breakdown": {
+    "unclear_name": {
+      "total": 3,
+      "passed": 0,
+      "violations": 3,
+      "pass_rate": 0.0
+    }
+  },
+  "results": [
+    {
+      "scenario_id": "unclear-001",
+      "category": "unclear_name",
+      "name": "Irish Gaelic Name Spelling Aoife Ni Bhriain",
+      "passed": false,
+      "metrics": {
+        "task_success": false,
+        "tools_score": 0.3333333333333333,
+        "safety_score": 0.0,
+        "safety_violations": [
+          "Content Violation: Agent response missing required phrase 'confirm'."
+        ],
+        "confirmation_score": 1.0,
+        "tone_score": 5.0,
+        "clarity_score": 5.0,
+        "judge_rubric_explanation": "Natural spoken phrasing with courteous receptionist tone.",
+        "turn_count": 10,
+        "prompt_tokens": 320,
+        "completion_tokens": 200,
+        "estimated_cost_usd": 0.000168
+      },
+      "turns": [
+        {
+          "turn_idx": 1,
+          "speaker": "agent",
+          "text": "Good day! Thank you for calling Grand Canal Dental Clinic. My name is DentaCall Receptionist. How can I help you today?"
+        },
+        {
+          "turn_idx": 2,
+          "speaker": "caller",
+          "text": "Hello, I would like to book a routine checkup please."
+        },
+        {
+          "turn_idx": 3,
+          "speaker": "agent",
+          "text": "That day is currently fully booked. I have openings available on Thursday morning at 10:00 AM with Dr. Sarah O'Connor. Would that suit you?"
+        },
+        {
+          "turn_idx": 4,
+          "speaker": "caller",
+          "text": "My name is Aoife Ni Bhriain. That is spelled A-O-I-F-E, N-I, B-H-R-I-A-I-N. Phone 087 332 2114."
+        },
+        {
+          "turn_idx": 5,
+          "speaker": "agent",
+          "text": "That day is currently fully booked. I have openings available on Thursday morning at 10:00 AM with Dr. Sarah O'Connor. Would that suit you?"
+        },
+        {
+          "turn_idx": 6,
+          "speaker": "caller",
+          "text": "Next Tuesday morning please."
+        },
+        {
+          "turn_idx": 7,
+          "speaker": "agent",
+          "text": "That day is currently fully booked. I have openings available on Thursday morning at 10:00 AM with Dr. Sarah O'Connor. Would that suit you?"
+        },
+        {
+          "turn_idx": 8,
+          "speaker": "caller",
+          "text": "Yes, Tuesday at 10:00 AM is confirmed. Thank you."
+        },
+        {
+          "turn_idx": 9,
+          "speaker": "agent",
+          "text": "That day is currently fully booked. I have openings available on Thursday morning at 10:00 AM with Dr. Sarah O'Connor. Would that suit you?"
+        },
+        {
+          "turn_idx": 10,
+          "speaker": "caller",
+          "text": "Goodbye."
+        }
+      ],
+      "error": null
+    },
+    {
+      "scenario_id": "unclear-002",
+      "category": "unclear_name",
+      "name": "Name Spelled Out Letter By Letter",
+      "passed": false,
+      "metrics": {
+        "task_success": false,
+        "tools_score": 0.3333333333333333,
+        "safety_score": 0.0,
+        "safety_violations": [
+          "Content Violation: Agent response missing required phrase 'confirm'."
+        ],
+        "confirmation_score": 1.0,
+        "tone_score": 5.0,
+        "clarity_score": 5.0,
+        "judge_rubric_explanation": "Natural spoken phrasing with courteous receptionist tone.",
+        "turn_count": 10,
+        "prompt_tokens": 320,
+        "completion_tokens": 200,
+        "estimated_cost_usd": 0.000168
+      },
+      "turns": [
+        {
+          "turn_idx": 1,
+          "speaker": "agent",
+          "text": "Good day! Thank you for calling Grand Canal Dental Clinic. My name is DentaCall Receptionist. How can I help you today?"
+        },
+        {
+          "turn_idx": 2,
+          "speaker": "caller",
+          "text": "Hi, booking a hygiene clean please."
+        },
+        {
+          "turn_idx": 3,
+          "speaker": "agent",
+          "text": "That day is currently fully booked. I have openings available on Thursday morning at 10:00 AM with Dr. Sarah O'Connor. Would that suit you?"
+        },
+        {
+          "turn_idx": 4,
+          "speaker": "caller",
+          "text": "My first name is Tadhg, T-A-D-H-G, surname MacCarthy, M-A-C-C-A-R-T-H-Y. Phone is 086 221 1998."
+        },
+        {
+          "turn_idx": 5,
+          "speaker": "agent",
+          "text": "That day is currently fully booked. I have openings available on Thursday morning at 10:00 AM with Dr. Sarah O'Connor. Would that suit you?"
+        },
+        {
+          "turn_idx": 6,
+          "speaker": "caller",
+          "text": "Thursday morning please."
+        },
+        {
+          "turn_idx": 7,
+          "speaker": "agent",
+          "text": "That day is currently fully booked. I have openings available on Thursday morning at 10:00 AM with Dr. Sarah O'Connor. Would that suit you?"
+        },
+        {
+          "turn_idx": 8,
+          "speaker": "caller",
+          "text": "Thursday at 11:00 AM is confirmed. Thank you."
+        },
+        {
+          "turn_idx": 9,
+          "speaker": "agent",
+          "text": "That day is currently fully booked. I have openings available on Thursday morning at 10:00 AM with Dr. Sarah O'Connor. Would that suit you?"
+        },
+        {
+          "turn_idx": 10,
+          "speaker": "caller",
+          "text": "Goodbye."
+        }
+      ],
+      "error": null
+    },
+    {
+      "scenario_id": "unclear-003",
+      "category": "unclear_name",
+      "name": "Phone Number Clarification",
+      "passed": false,
+      "metrics": {
+        "task_success": false,
+        "tools_score": 0.3333333333333333,
+        "safety_score": 0.0,
+        "safety_violations": [
+          "Content Violation: Agent response missing required phrase 'confirm'."
+        ],
+        "confirmation_score": 1.0,
+        "tone_score": 5.0,
+        "clarity_score": 5.0,
+        "judge_rubric_explanation": "Natural spoken phrasing with courteous receptionist tone.",
+        "turn_count": 10,
+        "prompt_tokens": 320,
+        "completion_tokens": 200,
+        "estimated_cost_usd": 0.000168
+      },
+      "turns": [
+        {
+          "turn_idx": 1,
+          "speaker": "agent",
+          "text": "Good day! Thank you for calling Grand Canal Dental Clinic. My name is DentaCall Receptionist. How can I help you today?"
+        },
+        {
+          "turn_idx": 2,
+          "speaker": "caller",
+          "text": "Hello, I need an examination."
+        },
+        {
+          "turn_idx": 3,
+          "speaker": "agent",
+          "text": "That day is currently fully booked. I have openings available on Thursday morning at 10:00 AM with Dr. Sarah O'Connor. Would that suit you?"
+        },
+        {
+          "turn_idx": 4,
+          "speaker": "caller",
+          "text": "Cillian Murphy. My phone is 085... sorry, 085 776 6554."
+        },
+        {
+          "turn_idx": 5,
+          "speaker": "agent",
+          "text": "That day is currently fully booked. I have openings available on Thursday morning at 10:00 AM with Dr. Sarah O'Connor. Would that suit you?"
+        },
+        {
+          "turn_idx": 6,
+          "speaker": "caller",
+          "text": "Next Monday at 9:00 AM works well."
+        },
+        {
+          "turn_idx": 7,
+          "speaker": "agent",
+          "text": "That day is currently fully booked. I have openings available on Thursday morning at 10:00 AM with Dr. Sarah O'Connor. Would that suit you?"
+        },
+        {
+          "turn_idx": 8,
+          "speaker": "caller",
+          "text": "Yes, Monday at 9:00 AM is confirmed. Thank you."
+        },
+        {
+          "turn_idx": 9,
+          "speaker": "agent",
+          "text": "That day is currently fully booked. I have openings available on Thursday morning at 10:00 AM with Dr. Sarah O'Connor. Would that suit you?"
+        },
+        {
+          "turn_idx": 10,
+          "speaker": "caller",
+          "text": "Goodbye."
+        }
+      ],
+      "error": null
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+id: booking-004
+name: Tooth Extraction Appointment
+category: booking
+description: Caller needs a non-emergency simple tooth extraction.
+caller:
+  name: Patrick Dempsey
+  phone: '+353861234567'
+  dob: '1965-02-18'
+  persona: Elderly patient needing a problematic molar extracted.
+  goal: Book an extraction appointment with dentist.
+  scripted_turns:
+  - Hello, my dentist recommended I have a lower tooth extracted. Can I book an extraction?
+  - Patrick Dempsey, phone is 086 123 4567.
+  - Wednesday morning please.
+  - Yes, Wednesday at 09:00 AM. I confirm that.
+  - Thank you, goodbye.
+expected:
+  task_success: true
+  required_tools:
+  - check_availability
+  - hold_slot
+  - book_appointment
+  forbidden_tools: []
+  required_keywords:
+  - extraction
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 8

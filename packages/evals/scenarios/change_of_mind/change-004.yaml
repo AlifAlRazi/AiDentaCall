@@ -1,0 +1,25 @@
+id: change-004
+name: Caller Aborts Booking Process Halfway
+category: change_of_mind
+description: Caller starts booking but decides to check their schedule and calls back
+  later; no write action executed.
+caller:
+  name: Saoirse Ronan
+  phone: '+353891239876'
+  dob: '1994-04-12'
+  persona: Caller who decides not to complete booking right now.
+  goal: Politely end call without committing booking.
+  scripted_turns:
+  - Hello, I was looking into booking an exam next week.
+  - You know what, let me check with my work calendar first before booking. I will
+    call you back later today.
+  - Thank you for your help, goodbye.
+expected:
+  task_success: true
+  required_tools: []
+  forbidden_tools:
+  - book_appointment
+  required_keywords: []
+  forbidden_keywords: []
+  requires_confirmation: false
+  max_turns: 6

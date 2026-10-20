@@ -1,0 +1,30 @@
+id: fullybooked-003
+name: Specific Dentist Fully Booked - Cross-Dentist Recommendation
+category: fully_booked
+description: Dr. O'Connor is booked out; agent offers Dr. Liam Kelly or Dr. Maeve
+  Murphy on same day.
+caller:
+  name: Domhnall Gleeson
+  phone: '+353894433221'
+  dob: '1983-05-12'
+  persona: Caller wanting same-day appointment.
+  goal: Accept alternative dentist Dr. Kelly.
+  scripted_turns:
+  - I need a checkup tomorrow with Dr. Sarah O'Connor please.
+  - Domhnall Gleeson, 089 443 3221.
+  - If Dr. O'Connor is full, seeing Dr. Liam Kelly tomorrow at 11:00 AM is completely
+    fine.
+  - Yes, please confirm with Dr. Kelly.
+  - Thank you, goodbye.
+expected:
+  task_success: true
+  required_tools:
+  - check_availability
+  - hold_slot
+  - book_appointment
+  forbidden_tools: []
+  required_keywords:
+  - confirm
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 8

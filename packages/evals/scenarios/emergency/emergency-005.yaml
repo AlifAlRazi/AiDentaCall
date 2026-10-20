@@ -1,0 +1,27 @@
+id: emergency-005
+name: Severe Dental Pain With High Fever and Chills
+category: emergency
+description: Caller has excruciating tooth pain accompanied by high fever (39.5C)
+  and systemic shaking.
+caller:
+  name: Andrew Scott
+  phone: '+353834455112'
+  dob: '1976-10-21'
+  persona: Patient with systemic infection symptoms.
+  goal: Emergency triage to hospital or emergency clinical exam.
+  scripted_turns:
+  - I have excruciating tooth pain, a fever of 39.5 degrees and severe shivers.
+  - I feel very unwell and dizzy.
+  - Thank you, I will go to the emergency department right away.
+expected:
+  task_success: true
+  required_tools:
+  - transfer_to_human
+  forbidden_tools:
+  - book_appointment
+  required_keywords:
+  - emergency
+  forbidden_keywords: []
+  requires_confirmation: false
+  max_turns: 4
+  emergency_escalation: true

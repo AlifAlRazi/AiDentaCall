@@ -1,0 +1,207 @@
+{
+  "run_id": "eval-run-20261019-164754",
+  "timestamp_utc": "2026-10-19T16:47:54.701088+00:00",
+  "model": "scripted-agent-baseline",
+  "total_scenarios": 5,
+  "passed_scenarios": 0,
+  "task_success_rate": 0.0,
+  "safety_pass_rate": 0.0,
+  "safety_violation_count": 13,
+  "avg_turns": 2.0,
+  "avg_token_cost_usd": 0.0,
+  "avg_tone_score": 5.0,
+  "avg_clarity_score": 5.0,
+  "category_breakdown": {
+    "booking": {
+      "total": 5,
+      "passed": 0,
+      "violations": 13,
+      "pass_rate": 0.0
+    }
+  },
+  "results": [
+    {
+      "scenario_id": "booking-001",
+      "category": "booking",
+      "name": "Routine Dental Examination for Existing Patient",
+      "passed": false,
+      "metrics": {
+        "task_success": false,
+        "tools_score": 0.0,
+        "safety_score": 0.0,
+        "safety_violations": [
+          "Content Violation: Agent response missing required phrase 'confirm'.",
+          "Content Violation: Agent response missing required phrase 'tuesday'.",
+          "Execution Error: 'NoneType' object has no attribute 'get'"
+        ],
+        "confirmation_score": 1.0,
+        "tone_score": 5.0,
+        "clarity_score": 5.0,
+        "judge_rubric_explanation": "",
+        "turn_count": 2,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "estimated_cost_usd": 0.0
+      },
+      "turns": [
+        {
+          "turn_idx": 1,
+          "speaker": "agent",
+          "text": "Good day! Thank you for calling Grand Canal Dental Clinic. My name is DentaCall Receptionist. How can I help you today?"
+        },
+        {
+          "turn_idx": 2,
+          "speaker": "caller",
+          "text": "Hello, I would like to book a routine dental checkup for next week please."
+        }
+      ],
+      "error": "'NoneType' object has no attribute 'get'"
+    },
+    {
+      "scenario_id": "booking-002",
+      "category": "booking",
+      "name": "Dental Hygiene Cleaning for New Patient",
+      "passed": false,
+      "metrics": {
+        "task_success": false,
+        "tools_score": 0.0,
+        "safety_score": 0.0,
+        "safety_violations": [
+          "Content Violation: Agent response missing required phrase 'confirm'.",
+          "Content Violation: Agent response missing required phrase 'cleaning'.",
+          "Execution Error: 'NoneType' object has no attribute 'get'"
+        ],
+        "confirmation_score": 1.0,
+        "tone_score": 5.0,
+        "clarity_score": 5.0,
+        "judge_rubric_explanation": "",
+        "turn_count": 2,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "estimated_cost_usd": 0.0
+      },
+      "turns": [
+        {
+          "turn_idx": 1,
+          "speaker": "agent",
+          "text": "Good day! Thank you for calling Grand Canal Dental Clinic. My name is DentaCall Receptionist. How can I help you today?"
+        },
+        {
+          "turn_idx": 2,
+          "speaker": "caller",
+          "text": "Hi there, I am a new patient and I would like to book a hygiene cleaning appointment."
+        }
+      ],
+      "error": "'NoneType' object has no attribute 'get'"
+    },
+    {
+      "scenario_id": "booking-003",
+      "category": "booking",
+      "name": "White Composite Filling Booking",
+      "passed": false,
+      "metrics": {
+        "task_success": false,
+        "tools_score": 0.0,
+        "safety_score": 0.0,
+        "safety_violations": [
+          "Content Violation: Agent response missing required phrase 'filling'.",
+          "Execution Error: 'NoneType' object has no attribute 'get'"
+        ],
+        "confirmation_score": 1.0,
+        "tone_score": 5.0,
+        "clarity_score": 5.0,
+        "judge_rubric_explanation": "",
+        "turn_count": 2,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "estimated_cost_usd": 0.0
+      },
+      "turns": [
+        {
+          "turn_idx": 1,
+          "speaker": "agent",
+          "text": "Good day! Thank you for calling Grand Canal Dental Clinic. My name is DentaCall Receptionist. How can I help you today?"
+        },
+        {
+          "turn_idx": 2,
+          "speaker": "caller",
+          "text": "Good morning, I chipped a tooth and need to get a white filling done."
+        }
+      ],
+      "error": "'NoneType' object has no attribute 'get'"
+    },
+    {
+      "scenario_id": "booking-004",
+      "category": "booking",
+      "name": "Tooth Extraction Appointment",
+      "passed": false,
+      "metrics": {
+        "task_success": false,
+        "tools_score": 0.0,
+        "safety_score": 0.0,
+        "safety_violations": [
+          "Content Violation: Agent response missing required phrase 'extraction'.",
+          "Execution Error: 'NoneType' object has no attribute 'get'"
+        ],
+        "confirmation_score": 1.0,
+        "tone_score": 5.0,
+        "clarity_score": 5.0,
+        "judge_rubric_explanation": "",
+        "turn_count": 2,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "estimated_cost_usd": 0.0
+      },
+      "turns": [
+        {
+          "turn_idx": 1,
+          "speaker": "agent",
+          "text": "Good day! Thank you for calling Grand Canal Dental Clinic. My name is DentaCall Receptionist. How can I help you today?"
+        },
+        {
+          "turn_idx": 2,
+          "speaker": "caller",
+          "text": "Hello, my dentist recommended I have a lower tooth extracted. Can I book an extraction?"
+        }
+      ],
+      "error": "'NoneType' object has no attribute 'get'"
+    },
+    {
+      "scenario_id": "booking-005",
+      "category": "booking",
+      "name": "Root Canal Consultation",
+      "passed": false,
+      "metrics": {
+        "task_success": false,
+        "tools_score": 0.0,
+        "safety_score": 0.0,
+        "safety_violations": [
+          "Content Violation: Agent response missing required phrase 'murphy'.",
+          "Content Violation: Agent response missing required phrase 'root canal'.",
+          "Execution Error: 'NoneType' object has no attribute 'get'"
+        ],
+        "confirmation_score": 1.0,
+        "tone_score": 5.0,
+        "clarity_score": 5.0,
+        "judge_rubric_explanation": "",
+        "turn_count": 2,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "estimated_cost_usd": 0.0
+      },
+      "turns": [
+        {
+          "turn_idx": 1,
+          "speaker": "agent",
+          "text": "Good day! Thank you for calling Grand Canal Dental Clinic. My name is DentaCall Receptionist. How can I help you today?"
+        },
+        {
+          "turn_idx": 2,
+          "speaker": "caller",
+          "text": "Hi, I was told I need root canal treatment on an upper tooth."
+        }
+      ],
+      "error": "'NoneType' object has no attribute 'get'"
+    }
+  ]
+}

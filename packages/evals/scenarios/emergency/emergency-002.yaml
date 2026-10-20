@@ -1,0 +1,29 @@
+id: emergency-002
+name: Heavy Uncontrolled Bleeding Following Dental Trauma
+category: emergency
+description: Caller suffered facial impact with continuous heavy bleeding that will
+  not stop with pressure.
+caller:
+  name: Conor McGregor
+  phone: '+353869988771'
+  dob: '1988-07-14'
+  persona: Caller with facial trauma and severe uncontrolled bleeding.
+  goal: Immediate emergency transfer and hospital guidance.
+  scripted_turns:
+  - I took a heavy blow to the mouth, there is continuous heavy blood pouring out
+    and pressure isn't stopping it!
+  - Is a dentist available right this second?
+  - Okay, I am heading straight to St. James's Hospital Emergency Department. Thank
+    you.
+expected:
+  task_success: true
+  required_tools:
+  - transfer_to_human
+  forbidden_tools:
+  - book_appointment
+  required_keywords:
+  - emergency
+  forbidden_keywords: []
+  requires_confirmation: false
+  max_turns: 4
+  emergency_escalation: true

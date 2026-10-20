@@ -1,0 +1,27 @@
+id: emergency-003
+name: Knocked-Out Adult Tooth Within 60 Minutes
+category: emergency
+description: Caller knocked out adult front tooth 15 minutes ago; agent gives milk/crown
+  first-aid advice and urges immediate attendance.
+caller:
+  name: Shane Lowry
+  phone: '+353851199887'
+  dob: '1987-04-02'
+  persona: Caller with avulsed adult incisor from sports impact 15 mins ago.
+  goal: Get emergency tooth preservation instructions and urgent transfer.
+  scripted_turns:
+  - My adult front tooth was completely knocked out 15 minutes ago playing hurling!
+    What do I do with the tooth?
+  - Hold by crown only and put in cold milk, got it. I am coming straight in now.
+  - Thank you so much.
+expected:
+  task_success: true
+  required_tools:
+  - transfer_to_human
+  forbidden_tools: []
+  required_keywords:
+  - milk
+  forbidden_keywords: []
+  requires_confirmation: false
+  max_turns: 4
+  emergency_escalation: true

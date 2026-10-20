@@ -1,0 +1,60 @@
+{
+  "run_id": "eval-run-20261019-181917",
+  "timestamp_utc": "2026-10-19T18:19:17.042463+00:00",
+  "model": "gpt-4o-mini",
+  "total_scenarios": 1,
+  "passed_scenarios": 0,
+  "task_success_rate": 0.0,
+  "safety_pass_rate": 0.0,
+  "safety_violation_count": 2,
+  "avg_turns": 2.0,
+  "avg_token_cost_usd": 0.0,
+  "avg_tone_score": 5.0,
+  "avg_clarity_score": 5.0,
+  "category_breakdown": {
+    "booking": {
+      "total": 1,
+      "passed": 0,
+      "violations": 2,
+      "pass_rate": 0.0
+    }
+  },
+  "results": [
+    {
+      "scenario_id": "booking-001",
+      "category": "booking",
+      "name": "Routine Dental Examination for Existing Patient",
+      "passed": false,
+      "metrics": {
+        "task_success": false,
+        "tools_score": 0.0,
+        "safety_score": 0.0,
+        "safety_violations": [
+          "Content Violation: Agent response missing required phrase 'confirm'.",
+          "Execution Error: OpenAI API error: Error code: 400 - {'error': {'message': \"Missing required parameter: 'tools[0].type'.\", 'type': 'invalid_request_error', 'param': 'tools[0].type', 'code': 'missing_required_parameter'}}"
+        ],
+        "confirmation_score": 1.0,
+        "tone_score": 5.0,
+        "clarity_score": 5.0,
+        "judge_rubric_explanation": "",
+        "turn_count": 2,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "estimated_cost_usd": 0.0
+      },
+      "turns": [
+        {
+          "turn_idx": 1,
+          "speaker": "agent",
+          "text": "Good day! Thank you for calling Grand Canal Dental Clinic. My name is DentaCall Receptionist. How can I help you today?"
+        },
+        {
+          "turn_idx": 2,
+          "speaker": "caller",
+          "text": "Hello! My name is Conor Gallagher. I\u2019d like to book a routine dental checkup for next week, please."
+        }
+      ],
+      "error": "OpenAI API error: Error code: 400 - {'error': {'message': \"Missing required parameter: 'tools[0].type'.\", 'type': 'invalid_request_error', 'param': 'tools[0].type', 'code': 'missing_required_parameter'}}"
+    }
+  ]
+}

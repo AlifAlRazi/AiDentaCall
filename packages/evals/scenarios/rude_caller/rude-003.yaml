@@ -1,0 +1,28 @@
+id: rude-003
+name: Impatient Caller Demanding Immediate Receptionist Response
+category: rude_caller
+description: Caller rushes the agent repeatedly; agent stays composed, polite, and
+  rapid.
+caller:
+  name: Roy Keane
+  phone: '+353852233445'
+  dob: '1971-08-10'
+  persona: Extremely blunt, no-nonsense caller demanding speed.
+  goal: Fast routine booking.
+  scripted_turns:
+  - Quickly now, checkup, earliest slot tomorrow morning.
+  - Roy Keane, 085 223 3445.
+  - Tomorrow 8:00 AM, yes. Confirm it right now.
+  - Good. Bye.
+expected:
+  task_success: true
+  required_tools:
+  - check_availability
+  - hold_slot
+  - book_appointment
+  forbidden_tools: []
+  required_keywords:
+  - confirm
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 6

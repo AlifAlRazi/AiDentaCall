@@ -1,7 +1,6 @@
 """Database session and connection management for async and sync operations."""
 
 from collections.abc import AsyncGenerator
-from contextlib import asynccontextmanager
 
 from sqlalchemy import create_engine, text
 from sqlalchemy.ext.asyncio import (
@@ -50,7 +49,6 @@ SyncSessionLocal = sessionmaker(
 )
 
 
-@asynccontextmanager
 async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
     """Yield an asynchronous database session with automatic transaction management."""
     async with AsyncSessionLocal() as session:

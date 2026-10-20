@@ -60,6 +60,13 @@ class DentaCallAgent:
                 {"phone": caller_phone},
                 call_id=self.state.call_id,
             )
+            self.state.tool_calls_record.append(
+                {
+                    "name": "find_patient",
+                    "arguments": {"phone": caller_phone},
+                    "step": 0,
+                }
+            )
             if lookup.get("success") and lookup.get("data", {}).get("patients"):
                 patient = lookup["data"]["patients"][0]
                 self.state.record_caller_identity(
@@ -96,6 +103,8 @@ class DentaCallAgent:
                 tools=tools,
                 temperature=self.temperature,
             )
+            self.state.prompt_tokens += response.prompt_tokens
+            self.state.completion_tokens += response.completion_tokens
 
             if not response.has_tool_calls:
                 # LLM finished reasoning and generated spoken text for the caller
@@ -116,6 +125,13 @@ class DentaCallAgent:
             for tool_call in response.tool_calls:
                 tool_name = tool_call.function_name
                 arguments = tool_call.arguments
+                self.state.tool_calls_record.append(
+                    {
+                        "name": tool_name,
+                        "arguments": arguments,
+                        "step": step_idx + 1,
+                    }
+                )
 
                 # Generate deterministic idempotency key for booking actions
                 idempotency_key = None

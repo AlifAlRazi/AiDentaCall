@@ -11,7 +11,16 @@ dependencies = [
     "httpx>=0.28.1",
     "openai>=1.60.0",
     "rich>=13.9.0",
+    "livekit-agents>=1.8.8",
+    "livekit-plugins-deepgram>=1.8.8",
+    "livekit-plugins-elevenlabs>=1.8.8",
+    "livekit-plugins-openai>=1.8.8",
+    "livekit-plugins-silero>=1.8.8",
 ]
+
+[project.scripts]
+dentacall-agent = "dentacall_agent.cli:main"
+dentacall-worker = "dentacall_agent.worker:main"
 
 [tool.uv.sources]
 dentacall-core = { workspace = true }

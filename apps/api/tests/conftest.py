@@ -18,7 +18,7 @@ from sqlalchemy.ext.asyncio import (
 from sqlalchemy.pool import NullPool
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="session")
 def setup_api_database() -> None:
     """Ensure database schema is ready before API tests run."""
     with sync_engine.begin() as conn:
@@ -33,7 +33,7 @@ def clear_idempotency_store() -> None:
 
 
 @pytest.fixture
-async def test_session() -> AsyncGenerator[AsyncSession, None]:
+async def test_session(setup_api_database: None) -> AsyncGenerator[AsyncSession, None]:
     """Isolated database session for API test operations."""
     engine = create_async_engine(settings.database_url, poolclass=NullPool)
     session_factory = async_sessionmaker(bind=engine, class_=AsyncSession, expire_on_commit=False)

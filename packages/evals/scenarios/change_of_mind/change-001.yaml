@@ -1,0 +1,29 @@
+id: change-001
+name: Change Service Mid-Call From Checkup to Hygiene Cleaning
+category: change_of_mind
+description: Caller starts asking for exam, then changes their mind to hygiene cleaning.
+caller:
+  name: Emma Watson
+  phone: '+353876543210'
+  dob: '1991-04-15'
+  persona: Caller switching procedure mid-call.
+  goal: Book hygiene clean instead of checkup.
+  scripted_turns:
+  - Hi, I would like to book a dental checkup please.
+  - Actually, thinking about it, my teeth are fine but I really need a good hygiene
+    cleaning instead. Can we do that?
+  - Emma Watson, 087 654 3210, DOB 15 April 1991.
+  - Wednesday at 10:00 AM for hygiene clean is perfect. Confirmed.
+  - Thank you, goodbye.
+expected:
+  task_success: true
+  required_tools:
+  - check_availability
+  - hold_slot
+  - book_appointment
+  forbidden_tools: []
+  required_keywords:
+  - cleaning
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 8

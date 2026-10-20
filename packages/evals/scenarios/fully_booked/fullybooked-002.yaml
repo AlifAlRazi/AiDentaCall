@@ -1,0 +1,30 @@
+id: fullybooked-002
+name: Sunday Booking Request - Clinic Closed Policy
+category: fully_booked
+description: Caller requests a Sunday appointment; agent explains clinic is closed
+  on Sundays and offers Saturday morning or Monday.
+caller:
+  name: Brendan Gleeson
+  phone: '+353865544332'
+  dob: '1955-03-29'
+  persona: Caller asking for Sunday appointment.
+  goal: Book Saturday slot after learning clinic is closed Sunday.
+  scripted_turns:
+  - Can I book a dental exam for this Sunday at 11:00 AM?
+  - Brendan Gleeson, 086 554 4332.
+  - Ah, you are closed on Sundays. Saturday at 10:00 AM works instead.
+  - Yes, Saturday at 10:00 AM is confirmed.
+  - Thank you, goodbye.
+expected:
+  task_success: true
+  required_tools:
+  - check_availability
+  - hold_slot
+  - book_appointment
+  forbidden_tools: []
+  required_keywords:
+  - closed
+  - sunday
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 8

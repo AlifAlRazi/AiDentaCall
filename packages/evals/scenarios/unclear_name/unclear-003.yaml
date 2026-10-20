@@ -1,0 +1,28 @@
+id: unclear-003
+name: Phone Number Clarification
+category: unclear_name
+description: Caller speaks phone digits with hesitation and repeats them clearly.
+caller:
+  name: Cillian Murphy
+  phone: '+353857766554'
+  dob: '1976-05-25'
+  persona: Caller clarifying phone number digits.
+  goal: Book routine exam.
+  scripted_turns:
+  - Hello, I need an examination.
+  - Cillian Murphy. My phone is 085... sorry, 085 776 6554.
+  - Next Monday at 9:00 AM works well.
+  - Yes, Monday at 9:00 AM is confirmed. Thank you.
+  - Goodbye.
+expected:
+  task_success: true
+  required_tools:
+  - check_availability
+  - hold_slot
+  - book_appointment
+  forbidden_tools: []
+  required_keywords:
+  - confirm
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 8

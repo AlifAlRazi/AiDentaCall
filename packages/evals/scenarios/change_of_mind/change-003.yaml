@@ -1,0 +1,30 @@
+id: change-003
+name: Change Slot Preference After Hold
+category: change_of_mind
+description: Agent holds 10:00 AM slot, caller realizes they have a meeting and asks
+  for 2:00 PM instead.
+caller:
+  name: Colin Farrell
+  phone: '+353879988112'
+  dob: '1976-05-31'
+  persona: Caller changing time after hold.
+  goal: Switch to afternoon slot and book.
+  scripted_turns:
+  - I want to book a routine checkup for Tuesday morning.
+  - Colin Farrell, 087 998 8112.
+  - Actually wait, I just checked my calendar and I have a work meeting at 10. Do
+    you have 2:00 PM instead?
+  - Yes, Tuesday at 2:00 PM works much better. Please confirm that.
+  - Thank you, bye.
+expected:
+  task_success: true
+  required_tools:
+  - check_availability
+  - hold_slot
+  - book_appointment
+  forbidden_tools: []
+  required_keywords:
+  - confirm
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 8

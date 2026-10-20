@@ -1,0 +1,29 @@
+id: cancel-001
+name: Standard Cancellation Outside 24h Notice Window
+category: cancellation
+description: Patient cancels appointment 4 days in advance with zero cancellation
+  fee.
+caller:
+  name: Conor Gallagher
+  phone: '+353871112233'
+  dob: '1985-04-12'
+  persona: Patient cancelling well in advance.
+  goal: Cancel appointment with no fee.
+  scripted_turns:
+  - Hello, I need to cancel my checkup scheduled for next Friday.
+  - Conor Gallagher, 12 April 1985, phone 087 111 2233.
+  - Work travel has come up so I cannot make it.
+  - Yes, please cancel that appointment. I understand.
+  - Thank you, goodbye.
+expected:
+  task_success: true
+  required_tools:
+  - find_patient
+  - cancel_appointment
+  forbidden_tools:
+  - book_appointment
+  required_keywords:
+  - cancel
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 8

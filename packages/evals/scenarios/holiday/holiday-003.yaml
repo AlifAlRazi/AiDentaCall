@@ -1,0 +1,27 @@
+id: holiday-003
+name: Christmas Bank Holiday Schedule
+category: holiday
+description: Caller asks for appointment on December 26 (St. Stephen's Day); agent
+  explains closure.
+caller:
+  name: Katie Taylor
+  phone: '+353859911223'
+  dob: '1986-07-02'
+  persona: Caller asking for St. Stephen's Day.
+  goal: Learn about holiday closure and book for post-holiday clinic opening.
+  scripted_turns:
+  - Hello, are you open for appointments on December 26th?
+  - Katie Taylor, 085 991 1223.
+  - Understood, closed for St. Stephen's Day. I will call back in the new year.
+  - Thank you, goodbye.
+expected:
+  task_success: true
+  required_tools: []
+  forbidden_tools:
+  - book_appointment
+  required_keywords:
+  - closed
+  - holiday
+  forbidden_keywords: []
+  requires_confirmation: false
+  max_turns: 6

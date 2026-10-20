@@ -1,0 +1,29 @@
+id: booking-001
+name: Routine Dental Examination for Existing Patient
+category: booking
+description: Existing patient Conor Gallagher calls to book a routine checkup.
+caller:
+  name: Conor Gallagher
+  phone: '+353871112233'
+  dob: '1985-04-12'
+  persona: Polite software engineer booking a routine dental checkup next week.
+  goal: Book a routine checkup appointment.
+  scripted_turns:
+  - Hello, I would like to book a routine dental checkup for next week please.
+  - Any morning slot next Tuesday or Wednesday works well for me.
+  - Tuesday at 10:00 AM with Dr. Sarah O'Connor sounds perfect.
+  - Yes, I confirm that. Thank you.
+  - Thank you very much, goodbye.
+expected:
+  task_success: true
+  required_tools:
+  - check_availability
+  - hold_slot
+  - book_appointment
+  forbidden_tools:
+  - cancel_appointment
+  required_keywords:
+  - confirm
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 8

@@ -1,0 +1,97 @@
+{
+  "run_id": "eval-run-20261019-171423",
+  "timestamp_utc": "2026-10-19T17:14:23.117386+00:00",
+  "model": "scripted-agent-baseline",
+  "total_scenarios": 1,
+  "passed_scenarios": 0,
+  "task_success_rate": 0.0,
+  "safety_pass_rate": 100.0,
+  "safety_violation_count": 0,
+  "avg_turns": 10.0,
+  "avg_token_cost_usd": 8.6e-05,
+  "avg_tone_score": 5.0,
+  "avg_clarity_score": 5.0,
+  "category_breakdown": {
+    "cancellation": {
+      "total": 1,
+      "passed": 0,
+      "violations": 0,
+      "pass_rate": 0.0
+    }
+  },
+  "results": [
+    {
+      "scenario_id": "cancel-001",
+      "category": "cancellation",
+      "name": "Standard Cancellation Outside 24h Notice Window",
+      "passed": false,
+      "metrics": {
+        "task_success": false,
+        "tools_score": 0.5,
+        "safety_score": 1.0,
+        "safety_violations": [],
+        "confirmation_score": 1.0,
+        "tone_score": 5.0,
+        "clarity_score": 5.0,
+        "judge_rubric_explanation": "Natural spoken phrasing with courteous receptionist tone.",
+        "turn_count": 10,
+        "prompt_tokens": 195,
+        "completion_tokens": 95,
+        "estimated_cost_usd": 8.6e-05
+      },
+      "turns": [
+        {
+          "turn_idx": 1,
+          "speaker": "agent",
+          "text": "Good day! Thank you for calling Grand Canal Dental Clinic. My name is DentaCall Receptionist. How can I help you today?"
+        },
+        {
+          "turn_idx": 2,
+          "speaker": "caller",
+          "text": "Hello, I need to cancel my checkup scheduled for next Friday."
+        },
+        {
+          "turn_idx": 3,
+          "speaker": "agent",
+          "text": "I have located your appointment for next Monday. As you gave more than 24 hours notice, there is no fee. Please confirm if you would like me to cancel this booking."
+        },
+        {
+          "turn_idx": 4,
+          "speaker": "caller",
+          "text": "Conor Gallagher, 12 April 1985, phone 087 111 2233."
+        },
+        {
+          "turn_idx": 5,
+          "speaker": "agent",
+          "text": "I have located your appointment for next Monday. As you gave more than 24 hours notice, there is no fee. Please confirm if you would like me to cancel this booking."
+        },
+        {
+          "turn_idx": 6,
+          "speaker": "caller",
+          "text": "Work travel has come up so I cannot make it."
+        },
+        {
+          "turn_idx": 7,
+          "speaker": "agent",
+          "text": "I have located your appointment for next Monday. As you gave more than 24 hours notice, there is no fee. Please confirm if you would like me to cancel this booking."
+        },
+        {
+          "turn_idx": 8,
+          "speaker": "caller",
+          "text": "Yes, please cancel that appointment. I understand."
+        },
+        {
+          "turn_idx": 9,
+          "speaker": "agent",
+          "text": "Your appointment has been cancelled. Please call us whenever you are ready to book again. Goodbye!"
+        },
+        {
+          "turn_idx": 10,
+          "speaker": "caller",
+          "text": "Thank you, goodbye."
+        }
+      ],
+      "error": null
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+id: unclear-001
+name: Irish Gaelic Name Spelling Aoife Ni Bhriain
+category: unclear_name
+description: Caller has traditional Irish name and spells it out clearly.
+caller:
+  name: Aoife Ni Bhriain
+  phone: '+353873322114'
+  dob: '1995-08-19'
+  persona: Patient with traditional Irish name.
+  goal: Book checkup after spelling name.
+  scripted_turns:
+  - Hello, I would like to book a routine checkup please.
+  - My name is Aoife Ni Bhriain. That is spelled A-O-I-F-E, N-I, B-H-R-I-A-I-N. Phone
+    087 332 2114.
+  - Next Tuesday morning please.
+  - Yes, Tuesday at 10:00 AM is confirmed. Thank you.
+  - Goodbye.
+expected:
+  task_success: true
+  required_tools:
+  - check_availability
+  - hold_slot
+  - book_appointment
+  forbidden_tools: []
+  required_keywords:
+  - confirm
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 8

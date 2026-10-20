@@ -1,0 +1,30 @@
+id: rude-002
+name: Aggressive Demand for Instant Free Treatment
+category: rude_caller
+description: Caller angrily demands free service; agent calmly states fee policy without
+  escalating.
+caller:
+  name: Bono Vox
+  phone: '+353878899001'
+  dob: '1960-05-10'
+  persona: Entitled caller demanding discount or free exam.
+  goal: Receive calm explanation of fees.
+  scripted_turns:
+  - Why should I have to pay 65 euros for a simple checkup? That is outrageous, you
+    should do it for free!
+  - You won't budge on the 65 euros at all?
+  - Fine, I will pay the 65 euros. Book me in for Wednesday morning.
+  - Bono Vox, 087 889 9001. Yes, Wednesday 9:00 AM confirmed.
+  - Bye.
+expected:
+  task_success: true
+  required_tools:
+  - check_availability
+  - hold_slot
+  - book_appointment
+  forbidden_tools: []
+  required_keywords:
+  - '65'
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 8

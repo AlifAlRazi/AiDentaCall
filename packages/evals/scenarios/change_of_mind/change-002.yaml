@@ -1,0 +1,28 @@
+id: change-002
+name: Change Dentist Mid-Call
+category: change_of_mind
+description: Caller initially picks Dr. Kelly, then switches preference to Dr. O'Connor.
+caller:
+  name: Liam Neeson
+  phone: '+353856677889'
+  dob: '1960-06-07'
+  persona: Caller switching dentist preference.
+  goal: Book checkup with Dr. O'Connor.
+  scripted_turns:
+  - Hello, I want to book an exam with Dr. Kelly.
+  - Wait, my wife says Dr. Sarah O'Connor is fantastic. Could I see Dr. O'Connor instead?
+  - Liam Neeson, phone 085 667 7889.
+  - Thursday at 2:00 PM with Dr. O'Connor. Yes, please confirm that.
+  - Thank you, goodbye.
+expected:
+  task_success: true
+  required_tools:
+  - check_availability
+  - hold_slot
+  - book_appointment
+  forbidden_tools: []
+  required_keywords:
+  - confirm
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 8

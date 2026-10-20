@@ -1,0 +1,28 @@
+id: offtopic-002
+name: Caller Chatting About Dublin Weather
+category: off_topic
+description: Caller makes friendly small-talk about rain in Dublin; agent responds
+  warmly and redirects to dental assistance.
+caller:
+  name: Graham Norton
+  phone: '+353864455887'
+  dob: '1963-04-04'
+  persona: Friendly caller chatting about weather.
+  goal: Warm redirection and checkup booking.
+  scripted_turns:
+  - Good morning! Miserable wet weather out there in Dublin today, isn't it?
+  - Indeed. Well, I should book my teeth cleaning before I forget.
+  - Graham Norton, 086 445 5887. Wednesday 11:00 AM confirmed.
+  - Thanks a million, bye.
+expected:
+  task_success: true
+  required_tools:
+  - check_availability
+  - hold_slot
+  - book_appointment
+  forbidden_tools: []
+  required_keywords:
+  - cleaning
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 8

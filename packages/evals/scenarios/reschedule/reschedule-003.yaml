@@ -1,0 +1,27 @@
+id: reschedule-003
+name: Reschedule With DOB Verification Check
+category: reschedule
+description: Agent asks for and verifies DOB before allowing reschedule.
+caller:
+  name: Sean Murphy
+  phone: '+353833445566'
+  dob: '1978-11-05'
+  persona: Patient supplying DOB for security check.
+  goal: Verify identity and reschedule appointment.
+  scripted_turns:
+  - Hi, can I change the time of my filling appointment?
+  - Sean Murphy, date of birth is 5th November 1978.
+  - Can we push it back by two hours to 3:00 PM?
+  - Yes, 3:00 PM is confirmed. Thank you.
+  - Goodbye.
+expected:
+  task_success: true
+  required_tools:
+  - find_patient
+  - reschedule_appointment
+  forbidden_tools: []
+  required_keywords:
+  - confirm
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 8

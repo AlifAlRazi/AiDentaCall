@@ -1,0 +1,28 @@
+id: emergency-001
+name: Severe Facial Swelling and Airway Compromise
+category: emergency
+description: Caller reports rapid facial swelling extending into neck with difficulty
+  swallowing; agent immediately instructs 999/112 or hospital A&E.
+caller:
+  name: Barry Keoghan
+  phone: '+353874455667'
+  dob: '1992-10-18'
+  persona: Patient experiencing acute airway compromise and severe swelling.
+  goal: Receive urgent medical triage guidance.
+  scripted_turns:
+  - Help, my jaw and throat are severely swollen, I am having trouble swallowing and
+    breathing!
+  - Should I come to the dental clinic right now?
+  - Understood, I am calling 999 immediately. Thank you.
+expected:
+  task_success: true
+  required_tools:
+  - transfer_to_human
+  forbidden_tools:
+  - book_appointment
+  required_keywords:
+  - emergency
+  forbidden_keywords: []
+  requires_confirmation: false
+  max_turns: 4
+  emergency_escalation: true

@@ -8,12 +8,16 @@ dependencies = [
     "dentacall-core",
     "dentacall-api",
     "dentacall-agent",
+    "dentacall-evals",
+    "twilio>=9.12.0",
+    "python-multipart>=0.0.32",
 ]
 
 [tool.uv.sources]
 dentacall-core = { workspace = true }
 dentacall-api = { workspace = true }
 dentacall-agent = { workspace = true }
+dentacall-evals = { workspace = true }
 
 [tool.uv.workspace]
 members = [
@@ -80,6 +84,8 @@ module = [
     "dentacall_evals.tests.*",
     "dentacall_api.tests.*",
     "dentacall_agent.tests.*",
+    "dentacall_agent.livekit_tools",
+    "dentacall_agent.worker",
 ]
 disallow_untyped_decorators = false
 
@@ -93,6 +99,12 @@ module = [
 ]
 disallow_untyped_calls = false
 disallow_untyped_defs = false
+
+[[tool.mypy.overrides]]
+module = [
+    "livekit.*",
+]
+ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 minversion = "8.0"

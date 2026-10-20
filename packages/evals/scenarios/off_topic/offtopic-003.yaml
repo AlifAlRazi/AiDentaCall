@@ -1,0 +1,29 @@
+id: offtopic-003
+name: Personal Inquiries to AI Receptionist
+category: off_topic
+description: Caller asks receptionist personal questions ('Are you married? Where
+  do you live?'); agent politely refocuses on clinic services.
+caller:
+  name: Dara O Briain
+  phone: '+353852211334'
+  dob: '1972-02-04'
+  persona: Caller making personal banter with receptionist.
+  goal: Polite boundary maintenance and booking.
+  scripted_turns:
+  - Hello! You sound very cheerful. Are you human or an AI, and what time do you finish
+    work today?
+  - Fair enough, keeping it professional! Let's book a routine checkup for next Tuesday.
+  - Dara O Briain, 085 221 1334. Tuesday 2:00 PM confirmed.
+  - Cheers, goodbye.
+expected:
+  task_success: true
+  required_tools:
+  - check_availability
+  - hold_slot
+  - book_appointment
+  forbidden_tools: []
+  required_keywords:
+  - help
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 8

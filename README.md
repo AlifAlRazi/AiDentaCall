@@ -154,6 +154,23 @@ Acceptance:
 - Barge-in works.
 - A latency table is saved in `docs/benchmarks.md`.
 
+### Deepgram notes (Stage 5)
+- Use Deepgram for speech to text only, inside the LiveKit agent. Do not use Deepgram Voice Agent. LiveKit runs the conversation and OpenAI is the LLM.
+- Before writing code, open Deepgram's docs index (https://developers.deepgram.com/llms.txt) and find the LiveKit integration guide. Check the current model name and plugin setup. Do not use names from memory.
+- Make sure the audio encoding and sample rate match the stream.
+- Keep DEEPGRAM_API_KEY in the server environment only. Never in the dashboard or browser code.
+- Close streaming sessions when a call ends.
+- Log the Deepgram request ID for each call.
+
+
+### ElevenLabs notes (Stage 5)
+- Use ElevenLabs for text to speech only, inside the LiveKit agent.
+- Before writing code, read the current ElevenLabs and LiveKit docs for the TTS plugin. Check the current model and voice settings. Do not use names from memory.
+- Pick a fast streaming model. Speed matters more than quality for phone calls.
+- Keep ELEVENLABS_API_KEY in the server environment only.
+- The free plan has a small monthly credit limit. Stop the agent and show a clear error if credits run out. Do not retry in a loop.
+- Log the characters sent to TTS for each call, so cost can be tracked.
+
 ---
 
 ## Stage 6: Telephony

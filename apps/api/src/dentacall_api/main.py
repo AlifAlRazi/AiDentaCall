@@ -1,5 +1,4 @@
-"""FastAPI application entrypoint for DentaCall Tool API."""
-
+import logging
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 
@@ -10,13 +9,18 @@ from fastapi.middleware.cors import CORSMiddleware
 from dentacall_api.errors import register_exception_handlers
 from dentacall_api.middleware.logging_middleware import CallIDLoggingMiddleware
 from dentacall_api.middleware.rate_limiter import RateLimitMiddleware
-from dentacall_api.routers import tools
+from dentacall_api.routers import livekit, telephony, tools
+
+logger = logging.getLogger(__name__)
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     """Application lifespan context for startup and shutdown hooks."""
-    await init_db()
+    try:
+        await init_db()
+    except Exception as e:
+        logger.warning(f"Database initialization deferred or unavailable: {e}")
     yield
 
 
@@ -50,6 +54,8 @@ def create_app() -> FastAPI:
 
     # Include Routers
     app.include_router(tools.router)
+    app.include_router(livekit.router)
+    app.include_router(telephony.router, prefix="/api")
 
     @app.get("/health", tags=["Health"], summary="System Health Check")
     async def health_check() -> dict[str, str]:

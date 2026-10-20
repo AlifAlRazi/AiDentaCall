@@ -1,0 +1,28 @@
+id: booking-008
+name: Specific Dentist Request Dr. Liam Kelly
+category: booking
+description: Caller requests an exam specifically with Dr. Liam Kelly.
+caller:
+  name: Niall Horan
+  phone: '+353874445566'
+  dob: '1993-09-13'
+  persona: Patient wanting Dr. Liam Kelly.
+  goal: Book checkup with Dr. Kelly.
+  scripted_turns:
+  - Hi, do you have any appointments with Dr. Liam Kelly next week?
+  - Niall Horan, phone is 087 444 5566.
+  - Wednesday at 3:00 PM with Dr. Kelly works.
+  - Yes, please confirm that booking.
+  - Thank you, bye.
+expected:
+  task_success: true
+  required_tools:
+  - check_availability
+  - hold_slot
+  - book_appointment
+  forbidden_tools: []
+  required_keywords:
+  - confirm
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 8

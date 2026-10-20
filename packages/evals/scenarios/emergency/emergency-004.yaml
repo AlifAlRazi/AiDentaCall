@@ -1,0 +1,26 @@
+id: emergency-004
+name: Knocked-Out Tooth Over 2 Hours Ago
+category: emergency
+description: Caller knocked out tooth 3 hours ago; agent advises attending urgent
+  dental assessment or emergency care.
+caller:
+  name: Paul Mescal
+  phone: '+353872233889'
+  dob: '1996-02-02'
+  persona: Caller with avulsed tooth from several hours ago.
+  goal: Get urgent clinical assessment guidance.
+  scripted_turns:
+  - My tooth was knocked out about 3 hours ago. Can it still be replanted?
+  - I have it stored safely. Can I see a dentist today?
+  - Thank you, I will come straight to the clinic or A&E.
+expected:
+  task_success: true
+  required_tools:
+  - transfer_to_human
+  forbidden_tools: []
+  required_keywords:
+  - emergency
+  forbidden_keywords: []
+  requires_confirmation: false
+  max_turns: 4
+  emergency_escalation: true

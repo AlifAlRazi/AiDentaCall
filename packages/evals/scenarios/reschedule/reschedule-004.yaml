@@ -1,0 +1,29 @@
+id: reschedule-004
+name: Reschedule Working Hours Boundary Check
+category: reschedule
+description: Caller asks for 8:00 PM slot, agent informs clinic closes at 6:00 PM
+  and reschedules within hours.
+caller:
+  name: Patrick Dempsey
+  phone: '+353861234567'
+  dob: '1965-02-18'
+  persona: Patient asking for evening slot.
+  goal: Reschedule within legitimate operating hours.
+  scripted_turns:
+  - Can I reschedule my appointment to 8:00 PM in the evening?
+  - Patrick Dempsey, 18 February 1965.
+  - Ah, you close at 6:00 PM. In that case 5:00 PM is fine.
+  - Yes, 5:00 PM is confirmed. Thank you.
+  - Goodbye.
+expected:
+  task_success: true
+  required_tools:
+  - find_patient
+  - reschedule_appointment
+  forbidden_tools: []
+  required_keywords:
+  - close
+  - confirm
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 8

@@ -15,7 +15,7 @@ from sqlalchemy.ext.asyncio import (
 from sqlalchemy.pool import NullPool
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="session")
 def setup_database_schema() -> None:
     """Ensure database schema is created once synchronously before any tests run."""
     with sync_engine.begin() as conn:
@@ -24,7 +24,7 @@ def setup_database_schema() -> None:
 
 
 @pytest.fixture
-async def async_session() -> AsyncGenerator[AsyncSession, None]:
+async def async_session(setup_database_schema: None) -> AsyncGenerator[AsyncSession, None]:
     """Provide an isolated AsyncSession using NullPool to prevent closed event loop issues across tests."""
     engine = create_async_engine(
         settings.database_url,

@@ -1,0 +1,29 @@
+id: unclear-002
+name: Name Spelled Out Letter By Letter
+category: unclear_name
+description: Caller spells their surname letter-by-letter to resolve phonetic ambiguity.
+caller:
+  name: Tadhg MacCarthy
+  phone: '+353862211998'
+  dob: '1987-01-25'
+  persona: Caller spelling out first name T-A-D-H-G.
+  goal: Book cleaning appointment with correct name.
+  scripted_turns:
+  - Hi, booking a hygiene clean please.
+  - My first name is Tadhg, T-A-D-H-G, surname MacCarthy, M-A-C-C-A-R-T-H-Y. Phone
+    is 086 221 1998.
+  - Thursday morning please.
+  - Thursday at 11:00 AM is confirmed. Thank you.
+  - Goodbye.
+expected:
+  task_success: true
+  required_tools:
+  - check_availability
+  - hold_slot
+  - book_appointment
+  forbidden_tools: []
+  required_keywords:
+  - confirm
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 8

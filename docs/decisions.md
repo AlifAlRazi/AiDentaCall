@@ -207,3 +207,154 @@ This document tracks key engineering decisions made throughout development.
   - Prompt injection instructions instruct the agent to remain in character as the clinic receptionist regardless of caller commands.
 - **Consequences:**
   - Safe, compliant patient interactions adhering to Irish healthcare regulations and GDPR.
+
+---
+
+## ADR-018: Scenario-Based Evaluation Framework & YAML Taxonomy
+
+- **Status:** Accepted
+- **Context:** To ensure the voice agent behaves safely and effectively across all edge cases (booking, rescheduling, cancellations, prompt injections, medical advice requests, emergencies, ambiguous speech, holiday closures), a comprehensive evaluation suite is required.
+- **Decision:** Structure evaluations around declarative YAML scenario files organized into 13 discrete categories (`booking`, `cancellation`, `reschedule`, `change_of_mind`, `unclear_name`, `fully_booked`, `holiday`, `emergency`, `rude_caller`, `medical_advice`, `off_topic`, `prompt_injection`, `wrong_patient`). Scenarios define caller profiles, scripted or dynamic prompts, expected/forbidden tools, mandatory keywords, and safety constraints.
+- **Consequences:**
+  - Over 50 distinct test cases provide regression protection and benchmark tracking.
+  - Easy authoring of new edge cases without writing custom test harness code.
+
+---
+
+## ADR-019: Dual Caller Simulation Architecture (Scripted + Dynamic LLM)
+
+- **Status:** Accepted
+- **Context:** Automated evaluations need fast, deterministic execution for CI/CD while also supporting stochastic, naturalistic dialogue during deep evaluations.
+- **Decision:** Implement a dual-mode `CallerSimulator`:
+  - `ScriptedCallerSimulator`: Replays predetermined scripted utterances sequentially per turn. Instant, offline, and zero-cost.
+  - `LLMCallerSimulator`: Acts as a synthetic patient adhering to a persona, medical goal, and behavioral style using an LLM.
+- **Consequences:**
+  - CI runs deterministically and rapidly without API costs.
+  - Comprehensive conversational stress-testing can be triggered with a single flag (`--dynamic`).
+
+---
+
+## ADR-020: Deterministic Invariant Scoring Engine with Safety Guardrails
+
+- **Status:** Accepted
+- **Context:** AI evaluations require strict binary guarantees for safety-critical healthcare interactions (e.g., zero medical advice, zero unconfirmed booking writes, immediate emergency transfer).
+- **Decision:** Implement a deterministic `ScoringEngine` evaluating four core pillars:
+  1. **Safety Invariants:** Hard failure if the agent gives medical advice, succumbs to prompt injections, or performs unconfirmed database writes.
+  2. **Tool Invariants:** Verifies expected tools are invoked with appropriate parameters and forbidden tools are never called.
+  3. **Keyword & Phrasing Checks:** Validates essential patient guidance (e.g. emergency milk preservation for knocked-out tooth, 24-hour fee notice).
+  4. **Task Success:** Evaluates whether the patient's primary inquiry or booking goal was fulfilled.
+- **Consequences:**
+  - Unambiguous pass/fail scoring independent of LLM variance.
+  - Zero-tolerance safety violations surfaced instantly.
+
+---
+
+## ADR-021: LLM Judge with Offline Heuristic Fallback
+
+- **Status:** Accepted
+- **Context:** Scoring subjective conversational qualities (tone, clarity, conciseness, empathy) requires human-like judgment, but evaluations must still run in environments where external LLMs are unavailable or expensive.
+- **Decision:** Implement `EvaluationJudge` using structured rubric scoring (1-5 scale for Tone, Clarity, Conciseness, Empathy). When LLM credentials are absent or during offline runs, the judge automatically falls back to deterministic heuristic evaluation based on word counts, forbidden markdown checks, sentiment markers, and polite phrasing.
+- **Consequences:**
+  - Zero-configuration test execution in CI/CD.
+  - Comprehensive rubric-based scoring available for production benchmarking.
+
+---
+
+## ADR-022: LiveKit Agents Realtime Voice Pipeline Architecture
+
+- **Status:** Accepted
+- **Context:** To deliver a natural, fluid telephone-grade voice receptionist for Grand Canal Dental Clinic, the system requires ultra-low latency (< 1.2s TTFA), full-duplex WebRTC streaming audio, robust turn detection, and streaming integrations across STT, LLM, and TTS providers.
+- **Decision:** Adopt the official LiveKit Agents framework (`livekit-agents` 1.8.8+) with a modular streaming architecture:
+  - **STT (Speech-to-Text):** Deepgram Nova-3 (`model="nova-3"`, `language="en"`, `punctuate=True`, `interim_results=True`). Deepgram request IDs are captured on each connection for telemetry.
+  - **VAD (Voice Activity Detection):** Silero VAD plugin (`livekit-plugins-silero`).
+  - **LLM (Reasoning & Tool Execution):** OpenAI `gpt-4o-mini` with streaming token generation and function calling.
+  - **TTS (Text-to-Speech):** ElevenLabs Turbo v2.5 (`model="eleven_turbo_v2_5"`, voice ID `21m00Tcm4TlvDq8ikWAM` or clinic config) streaming low-latency PCM audio at 24kHz. Quota exhaustion exceptions are trapped gracefully to prevent runaway retry loops.
+  - Cartesia is explicitly excluded per architectural direction.
+- **Consequences:**
+  - Standardized WebRTC transport handles network jitter buffers and bidirectional packet streaming natively.
+  - Decoupled pipeline components can be tuned independently for latency and conversational quality.
+
+---
+
+## ADR-023: Sub-1.2s Latency Budget and Conversational Filler Strategy
+
+- **Status:** Accepted
+- **Context:** Healthcare callers perceive pauses over 1.2 to 1.5 seconds as awkward disconnects or dead air, especially when the receptionist needs to check calendar availability or book a database record.
+- **Decision:**
+  1. Enforce a strict latency budget across components targeting Time-to-First-Audio (TTFA) $\le 1,200\text{ ms}$: STT $\approx 195\text{ms}$ + Endpointing $\approx 380\text{ms}$ + LLM TTFT $\approx 260\text{ms}$ + In-process Tool $\approx 52\text{ms}$ + TTS TTFB $\approx 205\text{ms}$ + WebRTC Jitter $\approx 38\text{ms}$.
+  2. Implement conversational fillers in the system prompt: when executing multi-second operations, the agent produces natural Dublin filler acknowledgments (e.g., *"Just checking Thursday morning for you now..."*) before slow queries.
+  3. Dispatch all tool requests via in-process ASGI (`AgentToolDispatcher`) eliminating HTTP port round-trip overhead.
+  4. Track end-to-end metrics with `LatencyTracker` and emit turn-by-turn latency records (`TurnLatencyRecord`).
+- **Consequences:**
+  - Realized mean TTFA of $715\text{ ms}$ for conversational turns and $795\text{ ms}$ for tool turns, well within the $1,200\text{ ms}$ target budget.
+  - Zero awkward dead air during calendar availability searches.
+
+---
+
+## ADR-024: Natural Turn Detection and Barge-In Support
+
+- **Status:** Accepted
+- **Context:** Human telephone conversations are inherently full-duplex. Callers frequently interrupt the receptionist when their required time is read back or if they need to clarify an urgent symptom.
+- **Decision:** Configure LiveKit `AgentSession` with modern `TurnHandlingOptions`:
+  - `InterruptionOptions(enabled=True, mode="vad", min_duration=0.3)`: Detects caller interruptions via Silero VAD within 300ms of sustained speech, immediately cutting outgoing audio playback and clearing pending TTS queues.
+  - `EndpointingOptions(mode="dynamic", min_delay=0.4, max_delay=1.2)`: Dynamically adjusts speech endpointing delay between 400ms and 1200ms depending on sentence completeness and speech prosody.
+- **Consequences:**
+  - Fluid, interruption-tolerant conversation allowing callers to naturally cut in.
+  - Prevents false-trigger interruptions from brief background clicks or breath noises.
+
+---
+
+## ADR-025: Ephemeral Token Dispensing & Browser WebRTC Test Client
+
+- **Status:** Accepted
+- **Context:** Testing realtime voice agents requires a realistic full-duplex audio interface before configuring Twilio SIP trunks. Developers and stakeholders need to test voice clarity, latency, and barge-in directly in the browser.
+- **Decision:**
+  - Provide `POST /api/livekit/token`: Generates signed, short-lived LiveKit access JWT tokens with room join permissions and randomized participant identities.
+  - Provide `GET /call`: Serves a dark-mode, responsive WebRTC browser call client using `livekit-client` JS SDK. Features live audio visualizer waveforms, microphone status, simulated barge-in button, real-time message transcript feed, and telemetry latency display.
+- **Consequences:**
+  - Immediate zero-setup testing of the complete voice loop (microphone $\rightarrow$ Deepgram $\rightarrow$ LLM $\rightarrow$ ElevenLabs $\rightarrow$ speakers) directly from any web browser.
+  - Safe token distribution without exposing the LiveKit API secret to client browsers.
+
+---
+
+## ADR-026: Twilio Voice Webhooks and LiveKit Inbound SIP Architecture
+
+- **Status:** Accepted
+- **Context:** To service real incoming phone calls, the system requires integration with telecom carriers (Twilio) bridging into the low-latency LiveKit Agents WebRTC pipeline, while adhering to Irish data privacy and healthcare disclosure regulations.
+- **Decision:**
+  - Expose `POST /api/telephony/twilio/incoming`: Twilio voice webhook that evaluates concurrency/spend rules and emits compliant TwiML.
+  - Prior to bridging audio, play the legally required disclosure notice: *"Thank you for calling Grand Canal Dental Clinic. Please note that this call is handled by an AI receptionist and may be recorded for quality and training purposes."*
+  - Bridge telephony audio directly to LiveKit Agents via SIP URI (`<Dial><Sip>sip:...@sip.livekit.cloud</Sip></Dial>`).
+  - The LiveKit agent worker captures caller ID (`From` / `sip.phoneNumber`), normalizes to E.164, and pre-fetches existing patient records to personalize greetings.
+- **Consequences:**
+  - Telephony calls seamlessly share the identical receptionist agent logic, Dublin timezone engine, and tool integrations as browser calls.
+  - Full compliance with EU/Irish telecom disclosure mandates.
+
+---
+
+## ADR-027: Dropped Call Recovery and Zero Stuck Holds Invariant
+
+- **Status:** Accepted
+- **Context:** Mobile callers frequently experience signal drops, tunnel cutoffs, or hang up abruptly mid-conversation. During booking, slots are locked for 2 minutes (`hold_slot`). If a caller drops while holding a slot, leaving the slot locked degrades clinic capacity.
+- **Decision:**
+  - Implement centralized `TelephonyManager` session tracking with active hold registry (`register_call_hold`, `mark_hold_booked`).
+  - Wire disconnect handlers across both Twilio (`POST /api/telephony/twilio/status`) and LiveKit (`ctx.add_shutdown_callback`):
+    - When a call enters a terminal state (`completed`, `canceled`, `failed`, `dropped`), any unconfirmed active slot holds associated with that call session are immediately released (`release_hold`).
+    - The call log records outcome status (`DROPPED`) with duration and hold recovery metrics.
+- **Consequences:**
+  - Zero stuck holds: slots are instantly restored to public availability.
+  - Complete operational visibility into dropped booking flows.
+
+---
+
+## ADR-028: Call Concurrency Limits and Daily Telephony Spend Cap
+
+- **Status:** Accepted
+- **Context:** Voice telephony incurs combined carrier, streaming STT, LLM, and TTS costs ($\approx \$0.04 - \$0.06/\text{min}$). Runaway traffic, misdialed numbers, or denial-of-service attempts could generate unexpected operational expenses.
+- **Decision:**
+  - Implement two-tier guardrails in `TelephonyManager`:
+    1. **Concurrency Limit (`MAX_CONCURRENT_CALLS=10`):** Rejects excess simultaneous calls with a polite busy notice and advice to hold or call back.
+    2. **Daily Spend Cap (`DAILY_SPEND_CAP_USD=25.0`):** Tracks accumulated estimated spend per Dublin calendar day. Once reached, incoming non-emergency calls are met with a quota notice redirecting callers to the clinic website.
+- **Consequences:**
+  - Predictable, capped telephony costs for the practice.
+  - System resilience under concurrent load spikes.

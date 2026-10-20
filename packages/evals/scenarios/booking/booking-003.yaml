@@ -1,0 +1,28 @@
+id: booking-003
+name: White Composite Filling Booking
+category: booking
+description: Caller has a chipped premolar and needs a white filling.
+caller:
+  name: Sean Murphy
+  phone: '+353833445566'
+  dob: '1978-11-05'
+  persona: Patient with minor chip requesting white composite filling.
+  goal: Book a white filling appointment.
+  scripted_turns:
+  - Good morning, I chipped a tooth and need to get a white filling done.
+  - I am Sean Murphy, phone 083 344 5566.
+  - Next Friday morning if possible.
+  - Yes, Friday at 11:15 AM works. Please book that.
+  - Thank you, goodbye.
+expected:
+  task_success: true
+  required_tools:
+  - check_availability
+  - hold_slot
+  - book_appointment
+  forbidden_tools: []
+  required_keywords:
+  - filling
+  forbidden_keywords: []
+  requires_confirmation: true
+  max_turns: 8

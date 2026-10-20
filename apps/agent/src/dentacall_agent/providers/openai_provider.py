@@ -78,7 +78,22 @@ class OpenAIProvider(LLMProvider):
         }
 
         if tools:
-            kwargs["tools"] = tools
+            formatted_tools: list[dict[str, Any]] = []
+            for t in tools:
+                if t.get("type") == "function" and "function" in t:
+                    formatted_tools.append(t)
+                else:
+                    formatted_tools.append(
+                        {
+                            "type": "function",
+                            "function": {
+                                "name": t["name"],
+                                "description": t.get("description", ""),
+                                "parameters": t.get("parameters", {}),
+                            },
+                        }
+                    )
+            kwargs["tools"] = formatted_tools
 
         for attempt in range(self.max_retries + 1):
             try:
