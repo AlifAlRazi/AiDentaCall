@@ -111,6 +111,10 @@ class TelephonyManager:
                 return s
         return None
 
+    def get_active_sessions(self) -> list[ActiveCallSession]:
+        """Return list of all currently active call sessions."""
+        return list(self._active_sessions.values())
+
     def register_call_hold(self, call_id: str, hold_id: uuid.UUID | str) -> None:
         """Associate an active slot hold with the calling session."""
         parsed_id = uuid.UUID(str(hold_id)) if isinstance(hold_id, str) else hold_id

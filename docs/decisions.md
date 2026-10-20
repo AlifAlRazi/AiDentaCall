@@ -418,3 +418,24 @@ This document tracks key engineering decisions made throughout development.
 - **Consequences:**
   - Instant visibility into voice agent unit economics and operational conversion rates.
   - Foundation for Stage 8 Dashboard visualizations.
+
+---
+
+## ADR-032: Client Dashboard Web Application and Live Clinical Operations View
+
+- **Status:** Accepted
+- **Context:** To demonstrate value to clinic stakeholders and enable real-time operational oversight, staff need a web dashboard to monitor inbound calls, inspect tool invocations, examine redacted transcripts, track provider expenditures, and review appointment schedules.
+- **Decision:**
+  - Implement a Next.js (App Router) TypeScript web application in `apps/dashboard`:
+    - **Vanilla CSS Design System (`globals.css`)**: Tailored healthcare dark-mode aesthetic with custom design tokens, glassmorphism surfaces, glowing status badges, and micro-animations.
+    - **Admin Authentication (`/login`)**: Simple single-admin credentials check with secure local session state.
+    - **Overview & Live Metrics (`/`)**: Real-time KPI cards (total calls, booking conversion rate, mean latency TTFA, accumulated spend), outcome breakdown bars, and live call feed with auto-polling.
+    - **Calls Explorer with Filters (`/calls`)**: Searchable data table with status and outcome filtering (Booked, Inquiry, Rescheduled, Dropped).
+    - **Deep Call Detail View (`/calls/[id]`)**: Interactive multi-tab layout showing redacted transcripts (`[REDACTED_PHONE]`, `[REDACTED_EMAIL]`), expandable tool invocation cards, chronological event timeline, OpenTelemetry latency telemetry, and an audio waveform playback simulator.
+    - **Appointments Calendar (`/calendar`)**: Dentist schedule filtered by clinician (Dr. Sarah Murphy, Dr. Conor Walsh) with procedure color coding.
+    - **Browser "Call Now" Launcher (`/call`)**: Integrated WebRTC voice testing console with microphone visualizer, barge-in simulation, and live transcript streaming.
+  - Expose supporting backend endpoints in `dentacall_api.routers.dashboard` (`/api/dashboard/*`) with seeded fallback data, ensuring the dashboard is fully demonstrable offline or in development without database prerequisites.
+- **Consequences:**
+  - Complete, client-ready visibility into voice receptionist operations.
+  - Zero-friction local demonstration with full seeded sample data across all pages.
+  - Immediate compliance with Stage 8 acceptance criteria.
