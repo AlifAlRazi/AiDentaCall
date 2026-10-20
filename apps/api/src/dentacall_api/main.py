@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from dentacall_api.errors import register_exception_handlers
 from dentacall_api.middleware.logging_middleware import CallIDLoggingMiddleware
 from dentacall_api.middleware.rate_limiter import RateLimitMiddleware
-from dentacall_api.routers import livekit, telephony, tools
+from dentacall_api.routers import livekit, metrics, telephony, tools
 
 logger = logging.getLogger(__name__)
 
@@ -56,6 +56,7 @@ def create_app() -> FastAPI:
     app.include_router(tools.router)
     app.include_router(livekit.router)
     app.include_router(telephony.router, prefix="/api")
+    app.include_router(metrics.router, prefix="/api")
 
     @app.get("/health", tags=["Health"], summary="System Health Check")
     async def health_check() -> dict[str, str]:

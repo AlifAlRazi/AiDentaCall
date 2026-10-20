@@ -86,15 +86,26 @@ class DentaCallAgent:
 
     async def step(self, user_utterance: str) -> str:
         """Process an incoming caller utterance and return the spoken response."""
+        from dentacall_core.tracing import trace_turn
+
         await self.initialize()
 
         self.state.turn_count += 1
         self.state.add_message("user", content=user_utterance)
 
-        return await self.step_internal()
+        turn_id = str(uuid.uuid4())
+        with trace_turn(
+            call_id=self.state.call_id,
+            turn_id=turn_id,
+            turn_number=self.state.turn_count,
+            user_input=user_utterance,
+        ):
+            return await self.step_internal()
 
     async def step_internal(self) -> str:
         """Internal tool-calling execution loop with max steps."""
+        from dentacall_core.tracing import trace_llm
+
         tools = self.dispatcher.get_definitions()
 
         for step_idx in range(self.max_tool_steps):
@@ -105,6 +116,14 @@ class DentaCallAgent:
             )
             self.state.prompt_tokens += response.prompt_tokens
             self.state.completion_tokens += response.completion_tokens
+
+            # Record OpenTelemetry LLM span
+            with trace_llm(
+                model=getattr(self.provider, "model", "gpt-4o-mini"),
+                prompt_tokens=response.prompt_tokens,
+                completion_tokens=response.completion_tokens,
+            ):
+                pass
 
             if not response.has_tool_calls:
                 # LLM finished reasoning and generated spoken text for the caller

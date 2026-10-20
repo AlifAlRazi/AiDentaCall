@@ -69,7 +69,12 @@ async def entrypoint(ctx: JobContext) -> None:
 
     # Register disconnect hook to release holds and clean up on drop
     async def cleanup_telephony_session() -> None:
-        await telephony_manager.handle_call_disconnect(call_id=call_id, reason="DISCONNECTED")
+        await telephony_manager.handle_call_disconnect(
+            call_id=call_id,
+            reason="DISCONNECTED",
+            characters_synthesized=current_turn.characters_synthesized,
+            latency_metrics=latency_tracker.get_aggregate_stats(),
+        )
 
     ctx.add_shutdown_callback(lambda: asyncio.create_task(cleanup_telephony_session()))
 
@@ -175,12 +180,22 @@ async def entrypoint(ctx: JobContext) -> None:
 
     @session.on("user_input_transcribed")
     def on_user_input_transcribed(ev: Any = None, *args: Any, **kwargs: Any) -> None:
+        from dentacall_core.tracing import trace_stt
+
         now = asyncio.get_event_loop().time()
         current_turn.stt_duration_ms = (now - turn_start_time) * 1000.0
-        # Log Deepgram request id if present in event/metadata
-        if hasattr(ev, "request_id") and ev.request_id:
-            current_turn.deepgram_request_id = ev.request_id
-            logger.info("[call_id=%s] Deepgram STT request_id: %s", call_id, ev.request_id)
+        req_id = getattr(ev, "request_id", None)
+        if req_id:
+            current_turn.deepgram_request_id = req_id
+            logger.info("[call_id=%s] Deepgram STT request_id: %s", call_id, req_id)
+
+        with trace_stt(
+            provider="deepgram",
+            request_id=req_id,
+            duration_ms=current_turn.stt_duration_ms,
+        ):
+            pass
+
         logger.info(
             "[call_id=%s] User input transcribed in %.1fms: %s",
             call_id,
@@ -190,10 +205,20 @@ async def entrypoint(ctx: JobContext) -> None:
 
     @session.on("speech_created")
     def on_speech_created(ev: Any = None, *args: Any, **kwargs: Any) -> None:
+        from dentacall_core.tracing import trace_tts
+
         now = asyncio.get_event_loop().time()
         current_turn.total_ttfa_ms = (now - turn_start_time) * 1000.0
         text = getattr(ev, "text", "") or ""
         current_turn.characters_synthesized += len(text)
+
+        with trace_tts(
+            provider="elevenlabs",
+            characters_sent=len(text),
+            ttfb_ms=current_turn.total_ttfa_ms,
+        ):
+            pass
+
         logger.info(
             "[call_id=%s] Agent started speaking (TTFA=%.1fms, chars=%d)",
             call_id,

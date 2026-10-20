@@ -132,8 +132,21 @@ class TelephonyManager:
         call_id: str,
         db_session: AsyncSession | None = None,
         reason: str = "COMPLETED",
+        transcript: str | list[dict[str, Any]] | None = None,
+        tool_calls: list[dict[str, Any]] | None = None,
+        latency_metrics: dict[str, Any] | None = None,
+        prompt_tokens: int = 0,
+        completion_tokens: int = 0,
+        characters_synthesized: int = 0,
+        outcome: str | None = None,
     ) -> dict[str, Any]:
-        """Clean up call session on disconnect and immediately release any unbooked holds."""
+        """Clean up call session on disconnect, redact transcript, compute costs, and release any unbooked holds."""
+        import json
+        from decimal import Decimal
+
+        from dentacall_core.cost_tracker import CallCostCalculator
+        from dentacall_core.redaction import redact_transcript
+
         session = self.get_session(call_id)
         if not session:
             return {"call_id": call_id, "holds_released": 0, "status": "UNKNOWN"}
@@ -142,7 +155,16 @@ class TelephonyManager:
             1.0,
             (datetime.now(UTC) - session.start_time_utc).total_seconds(),
         )
-        cost_usd = (duration_seconds / 60.0) * self.estimated_cost_per_minute_usd
+
+        # Compute accurate itemized costs
+        cost_estimate = CallCostCalculator.calculate(
+            duration_seconds=duration_seconds,
+            prompt_tokens=prompt_tokens,
+            completion_tokens=completion_tokens,
+            characters_synthesized=characters_synthesized,
+            is_telephony=bool(session.call_sid),
+        )
+        cost_usd = cost_estimate.total_cost_usd
         self.add_spend(cost_usd)
 
         holds_released = 0
@@ -161,7 +183,15 @@ class TelephonyManager:
                     logger.error(f"Error releasing hold {hold_id} on disconnect: {e}")
             await db_session.commit()
 
+        # Redact transcript if present
+        redacted_tx: str | None = None
+        if transcript is not None:
+            redacted_tx = redact_transcript(transcript)
+
         # Log outcome in database if db_session available
+        final_status = "DROPPED" if (reason == "DROPPED" or holds_released > 0) else reason
+        final_outcome = outcome or final_status
+
         if db_session:
             try:
                 clinic_res = await db_session.execute(select(Clinic.id).limit(1))
@@ -172,10 +202,24 @@ class TelephonyManager:
                         call_sid=session.call_sid,
                         caller_phone=session.caller_phone,
                         direction="INBOUND",
-                        status="DROPPED" if (reason == "DROPPED" or holds_released > 0) else reason,
+                        status=final_status,
+                        outcome=final_outcome,
+                        duration_seconds=duration_seconds,
+                        transcript_redacted=redacted_tx,
+                        tool_calls=json.dumps(tool_calls) if tool_calls else None,
+                        latency_metrics=json.dumps(latency_metrics) if latency_metrics else None,
+                        token_usage=json.dumps(
+                            {
+                                "prompt_tokens": prompt_tokens,
+                                "completion_tokens": completion_tokens,
+                                "total_tokens": prompt_tokens + completion_tokens,
+                            }
+                        ),
+                        cost_breakdown=json.dumps(cost_estimate.to_dict()),
+                        estimated_cost_usd=Decimal(str(round(cost_usd, 4))),
                         summary=(
                             f"Call {reason.lower()}. Duration: {int(duration_seconds)}s. "
-                            f"Holds released: {holds_released}."
+                            f"Holds released: {holds_released}. Cost: ${cost_usd:.4f}."
                         ),
                     )
                     db_session.add(call_log)
@@ -200,6 +244,7 @@ class TelephonyManager:
             "holds_released": holds_released,
             "released_hold_ids": released_hold_ids,
             "estimated_cost_usd": cost_usd,
+            "cost_breakdown": cost_estimate.to_dict(),
             "status": "DROPPED" if holds_released > 0 else reason,
         }
 

@@ -358,3 +358,63 @@ This document tracks key engineering decisions made throughout development.
 - **Consequences:**
   - Predictable, capped telephony costs for the practice.
   - System resilience under concurrent load spikes.
+
+---
+
+## ADR-029: OpenTelemetry Turn Tracing and Sub-Span Correlation
+
+- **Status:** Accepted
+- **Context:** Understanding voice conversational bottlenecks requires fine-grained visibility into each conversational turn. Without component-level tracing, diagnosing latency regressions across speech recognition, LLM reasoning, internal tool APIs, and audio synthesis is challenging.
+- **Decision:**
+  - Introduce distributed tracing using standard OpenTelemetry SDK (`dentacall_core.tracing`).
+  - Trace every caller turn as a parent span (`call_turn`) with structured attributes: `dentacall.call_id`, `dentacall.turn_id`, `dentacall.turn_number`, and truncated user input.
+  - Record child sub-spans for each pipeline phase:
+    - `stt_transcription`: captures provider (`deepgram`), duration, and upstream `request_id`.
+    - `llm_generation`: captures provider (`openai`), model (`gpt-4o-mini`), prompt/completion token usage, and Time to First Token (TTFT).
+    - `tool_<name>`: captures tool name, invocation arguments, and execution duration.
+    - `tts_synthesis`: captures provider (`elevenlabs`), synthesized character count, and Time to First Byte (TTFB).
+  - Correlate active trace and span IDs into structured JSON logs (`JSONLogFormatter`).
+- **Consequences:**
+  - End-to-end visibility into conversational turn timelines.
+  - Clear attribution of latency spikes (distinguishing network/LLM/tool delays).
+  - Full OpenTelemetry standards compliance allowing export to Jaeger, Grafana Tempo, or Datadog via OTLP.
+
+---
+
+## ADR-030: Patient PII Redaction and Configurable Data Retention
+
+- **Status:** Accepted
+- **Context:** Healthcare privacy standards (GDPR, Irish Data Protection Act) mandate strict minimization of patient Personally Identifiable Information (PII) stored in call records and diagnostic transcripts. Additionally, data retention policies require periodic purging of aged call logs.
+- **Decision:**
+  - Implement regex-based PII redaction (`dentacall_core.redaction`) applied prior to persisting transcripts in `call_logs.transcript_redacted`:
+    - Redacts Irish phone formats (E.164 `+353...`, national `087...`, landline `(01)...`), spoken spaced digits (`0 8 7 ...`), and email addresses with `[REDACTED_PHONE]` and `[REDACTED_EMAIL]`.
+    - Discriminates between phone numbers and valid clinical/booking numerical entities (e.g., service prices like `€65`, appointment times like `10:30`, dates like `2026-03-25`).
+  - Introduce configurable data retention (`DATA_RETENTION_DAYS`, default 90 days) and automated/on-demand purge routines (`purge_expired_call_logs`, `POST /api/metrics/purge-retention`).
+- **Consequences:**
+  - Compliant storage of conversation logs without unmasked patient contact info.
+  - Predictable database storage footprint with automated expiration of historical call logs.
+
+---
+
+## ADR-031: Itemized Call Cost Tracking and Observability Metrics Endpoint
+
+- **Status:** Accepted
+- **Context:** Voice agent operations incur multi-vendor micro-transactions across telephony carriers, streaming transcription, language models, voice synthesis, and WebRTC streaming. Dental clinic managers need real-time clarity on per-call unit economics and practice performance.
+- **Decision:**
+  - Implement `CallCostCalculator` computing itemized unit costs per call:
+    - Twilio Voice: $0.014/min
+    - Deepgram Nova-3: $0.0043/min
+    - OpenAI gpt-4o-mini: $0.15 / 1M prompt tokens, $0.60 / 1M completion tokens
+    - ElevenLabs Turbo v2.5: $25.00 / 1M characters synthesized
+    - LiveKit Cloud RTC: $0.004/min
+  - Store itemized cost breakdowns and estimated total USD in `call_logs`.
+  - Expose `GET /api/metrics` calculating:
+    - Daily call volume (`calls_per_day`)
+    - Conversion / booking rate (`booking_rate`)
+    - Mean Time to First Audio (`average_latency_ms`)
+    - Failure / drop rate (`failure_rate`)
+    - Average cost per call (`cost_per_call_usd`)
+    - Total spend and call outcome breakdowns (`calls_by_outcome`).
+- **Consequences:**
+  - Instant visibility into voice agent unit economics and operational conversion rates.
+  - Foundation for Stage 8 Dashboard visualizations.

@@ -22,10 +22,16 @@ def setup_api_logger(level: str = "INFO") -> logging.Logger:
     # Avoid adding duplicate handlers if already configured
     if not logger.handlers:
         handler = logging.StreamHandler()
-        formatter = logging.Formatter(
-            "%(asctime)s [%(levelname)s] [call_id=%(call_id)s] %(name)s: %(message)s"
-        )
-        handler.setFormatter(formatter)
+        from dentacall_core.json_logger import JSONLogFormatter
+        from dentacall_core.settings import settings
+
+        if getattr(settings, "log_format", "json").lower() == "json":
+            handler.setFormatter(JSONLogFormatter())
+        else:
+            formatter = logging.Formatter(
+                "%(asctime)s [%(levelname)s] [call_id=%(call_id)s] %(name)s: %(message)s"
+            )
+            handler.setFormatter(formatter)
         handler.addFilter(CallIDLogFilter())
         logger.addHandler(handler)
 

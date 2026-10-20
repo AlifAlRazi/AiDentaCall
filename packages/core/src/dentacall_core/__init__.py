@@ -18,6 +18,7 @@ from dentacall_core.booking import (
     reschedule_appointment,
 )
 from dentacall_core.config import ClinicConfig
+from dentacall_core.cost_tracker import CallCostCalculator, CallCostEstimate
 from dentacall_core.db import (
     AsyncSessionLocal,
     SyncSessionLocal,
@@ -30,6 +31,12 @@ from dentacall_core.holidays import (
     get_irish_public_holiday_name,
     get_irish_public_holidays,
     is_irish_public_holiday,
+)
+from dentacall_core.json_logger import (
+    JSONLogFormatter,
+    get_current_call_id,
+    set_current_call_id,
+    setup_structured_logging,
 )
 from dentacall_core.models import (
     Appointment,
@@ -45,6 +52,13 @@ from dentacall_core.models import (
     TimeOff,
     WorkingHours,
 )
+from dentacall_core.redaction import (
+    redact_emails,
+    redact_phone_numbers,
+    redact_pii,
+    redact_transcript,
+)
+from dentacall_core.retention import get_expired_call_logs_count, purge_expired_call_logs
 from dentacall_core.settings import settings
 from dentacall_core.timezone import (
     DUBLIN_TZ,
@@ -55,6 +69,16 @@ from dentacall_core.timezone import (
     now_utc,
     to_dublin,
     to_utc,
+)
+from dentacall_core.tracing import (
+    clear_collected_spans,
+    get_collected_spans,
+    get_tracer,
+    trace_llm,
+    trace_stt,
+    trace_tool,
+    trace_tts,
+    trace_turn,
 )
 
 __version__ = "0.1.0"
@@ -105,4 +129,24 @@ __all__ = [
     "HoldExpiredError",
     "AppointmentNotFoundError",
     "AppointmentAlreadyCancelledError",
+    "CallCostCalculator",
+    "CallCostEstimate",
+    "redact_phone_numbers",
+    "redact_emails",
+    "redact_pii",
+    "redact_transcript",
+    "purge_expired_call_logs",
+    "get_expired_call_logs_count",
+    "trace_turn",
+    "trace_stt",
+    "trace_llm",
+    "trace_tool",
+    "trace_tts",
+    "get_collected_spans",
+    "clear_collected_spans",
+    "get_tracer",
+    "JSONLogFormatter",
+    "set_current_call_id",
+    "get_current_call_id",
+    "setup_structured_logging",
 ]

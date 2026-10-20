@@ -211,7 +211,7 @@ Acceptance:
 
 ## Stage 8: Dashboard
 
-Goal: make the work visible to a client. Spend a limited amount of time here.
+Goal: make the work visible to a client.
 
 Tasks:
 - Next.js app with login (simple, one admin).

@@ -86,32 +86,34 @@ class AgentToolDispatcher:
 
         path, method = endpoint_map[name]
 
+        from dentacall_core.tracing import trace_tool
+
         try:
-            if method == "GET":
-                response = await self.client.get(path, headers=headers)
-            else:
-                response = await self.client.post(path, json=arguments, headers=headers)
+            with trace_tool(tool_name=name, arguments=arguments):
+                if method == "GET":
+                    response = await self.client.get(path, headers=headers)
+                else:
+                    response = await self.client.post(path, json=arguments, headers=headers)
 
-            try:
-                result_json = response.json()
-                if isinstance(result_json, dict):
-                    return result_json
-                return {
-                    "success": False,
-                    "data": None,
-                    "error_code": "INVALID_RESPONSE_FORMAT",
-                    "error_message": "Tool API returned a non-dictionary response.",
-                    "hint": "Please try again or proceed with alternative options.",
-                }
-            except Exception:
-                return {
-                    "success": False,
-                    "data": None,
-                    "error_code": "JSON_PARSE_ERROR",
-                    "error_message": f"Could not parse Tool API response (status {response.status_code}).",
-                    "hint": "Please retry the operation.",
-                }
-
+                try:
+                    result_json = response.json()
+                    if isinstance(result_json, dict):
+                        return result_json
+                    return {
+                        "success": False,
+                        "data": None,
+                        "error_code": "INVALID_RESPONSE_FORMAT",
+                        "error_message": "Tool API returned a non-dictionary response.",
+                        "hint": "Please try again or proceed with alternative options.",
+                    }
+                except Exception:
+                    return {
+                        "success": False,
+                        "data": None,
+                        "error_code": "JSON_PARSE_ERROR",
+                        "error_message": f"Could not parse Tool API response (status {response.status_code}).",
+                        "hint": "Please retry the operation.",
+                    }
         except Exception as exc:
             logger.exception("Error executing tool %s: %s", name, exc)
             return {

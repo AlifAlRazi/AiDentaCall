@@ -17,6 +17,9 @@ class CallIDLoggingMiddleware(BaseHTTPMiddleware):
         incoming_call_id = request.headers.get("X-Call-ID")
         call_id = incoming_call_id or str(uuid.uuid4())
         token = call_id_ctx.set(call_id)
+        from dentacall_core.json_logger import set_current_call_id
+
+        set_current_call_id(call_id)
 
         start_time = time.perf_counter()
         logger.info("-> %s %s", request.method, request.url.path)

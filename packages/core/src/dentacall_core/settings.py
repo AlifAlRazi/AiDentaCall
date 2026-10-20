@@ -75,5 +75,11 @@ class Settings(BaseSettings):
     daily_spend_cap_usd: float = 25.0
     call_recording_notice_enabled: bool = True
 
+    # Observability & Cost Tracking (Stage 7)
+    otel_service_name: str = "dentacall-voice"
+    otel_exporter_otlp_endpoint: str = "http://localhost:4318"
+    data_retention_days: int = 90
+    log_format: str = "json"
+
 
 settings = Settings()

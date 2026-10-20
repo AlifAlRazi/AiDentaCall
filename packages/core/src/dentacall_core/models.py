@@ -271,7 +271,16 @@ class CallLog(Base):
     caller_phone: Mapped[str | None] = mapped_column(String(50), nullable=True)
     direction: Mapped[str] = mapped_column(String(20), default="INBOUND", nullable=False)
     status: Mapped[str] = mapped_column(String(50), default="COMPLETED", nullable=False)
+    outcome: Mapped[str | None] = mapped_column(String(50), nullable=True)
+    duration_seconds: Mapped[float] = mapped_column(Numeric(10, 2), default=0.0, nullable=False)
     transcript_redacted: Mapped[str | None] = mapped_column(Text, nullable=True)
+    tool_calls: Mapped[str | None] = mapped_column(Text, nullable=True)
+    latency_metrics: Mapped[str | None] = mapped_column(Text, nullable=True)
+    token_usage: Mapped[str | None] = mapped_column(Text, nullable=True)
+    cost_breakdown: Mapped[str | None] = mapped_column(Text, nullable=True)
+    estimated_cost_usd: Mapped[Decimal] = mapped_column(
+        Numeric(10, 4), default=Decimal("0.0000"), nullable=False
+    )
     summary: Mapped[str | None] = mapped_column(Text, nullable=True)
     created_at_utc: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=now_utc, nullable=False
